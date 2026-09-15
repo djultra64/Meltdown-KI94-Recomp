@@ -1,9 +1,8 @@
 # Meltdown-KI94-Recomp
 
 Meltdown is a research and learning project exploring native recompilation of
-the 1994 **Killer Instinct** arcade game. The first target is PC; a Nintendo 64
-port may follow once the native core is understood, testable, and sufficiently
-platform-independent.
+the 1994 **Killer Instinct** arcade game. The project targets native PC
+execution on Linux and Windows.
 
 This is not a matching decompilation. The project does not aim to recover the
 original source verbatim, reproduce the original compiler, or generate a
