@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "id": "ki15d_8802d5b0",
+  "name": "checksum_mix_step",
+  "game": {
+    "mame_set": "kinst",
+    "revision": "v1.5d",
+    "input_manifest": "work/input-inventory.json"
+  },
+  "original": {
+    "cpu": "R4600LE",
+    "virtual_address": "0x8802d5b0",
+    "physical_address": "0x0802d5b0",
+    "file_offset": null,
+    "source_image": "ki-l15d.u98",
+    "extracted_segment": {
+      "index": 0,
+      "load_address": "0x08000000",
+      "segment_offset": "0x0002d5b0",
+      "segment_size": 208048,
+      "segment_sha256": "5dd923067b1a3398d4d26b6558e46cf396ab69b66afd5f8b183885b820e79b79",
+      "function_size": 48,
+      "function_sha256": "cb229c4eec53c1b933d0ac073ddcff0db5428c1e9e84214bee935ea64860c77a"
+    },
+    "assembly_path": "provenance/asm/ki15d_8802d5b0.s",
+    "discovery_notes": "A straight-line integer routine called three times by 0x8802d5e0. Nearby code folds bytes into the same value, so checksum_mix_step is a provisional semantic name."
+  },
+  "reconstruction": {
+    "kind": "static-recompilation",
+    "status": "implemented",
+    "source_path": "native/src/original/ki15d_8802d5b0.c",
+    "hardware_dependencies": []
+  },
+  "verification": {
+    "status": "trace-matched",
+    "fixtures": [
+      "tests/fixtures/ki15d_8802d5b0.csv",
+      "work/mame/traces/oracle-ki15d-8802d5b0.trace",
+      "work/kipack/ki15d/rom-0.bin"
+    ],
+    "mame_version": "0.289",
+    "commands": [
+      "flatpak run org.mamedev.MAME kinst -rompath assets/ki1 -debug -nodrc -debugscript mame/oracle_ki15d_8802d5b0.cmd -video none -sound none -nothrottle -skip_gameinfo -seconds_to_run 3 -cfg_directory work/mame/cfg -diff_directory work/mame/diff",
+      "make check"
+    ],
+    "notes": "Seven controlled inputs were executed by the original R4600 instructions in MAME and then by the native C reconstruction. All 64-bit results match exactly. The fixtures include bit 32 because the original three-call wrapper forwards the full intermediate result."
+  }
+}

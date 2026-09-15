@@ -1,0 +1,279 @@
+{
+  "schema_version": 1,
+  "game": {"mame_set": "kinst", "revision": "v1.5d"},
+  "purpose": "Curated fact and uncertainty index. Function reconstruction and verification statuses remain authoritative in provenance/functions.",
+  "facts": [
+    {
+      "id": "K-001", "title": "Boot segment 0 source identity",
+      "statement": "The verified U98 extraction produced segment 0 with 208048 bytes and SHA-256 5dd923067b1a3398d4d26b6558e46cf396ab69b66afd5f8b183885b820e79b79.",
+      "confidence": "differentially-verified",
+      "scope": ["KI v1.5d U98 boot segment 0 source fingerprint"],
+      "limits": "This source fingerprint is not semantic coverage and does not identify every disk-loaded region.",
+      "invalidation": "A clean extraction from the declared input produces different bytes or a source record names another load identity.",
+      "function_records": ["ki15d_88003d30"], "related_uncertainties": ["U-003", "U-009"],
+      "evidence": [
+        {"class": "differential-verification", "availability": "tracked", "path": "provenance/functions/ki15d_88003d30.json", "locator": "\"segment_size\": 208048"},
+        {"class": "review", "availability": "local-optional", "path": "work/reviews/POC-120A.md", "locator": "Segment size/hash: 208048 bytes"}
+      ]
+    },
+    {
+      "id": "K-002", "title": "Bounded type-0x1a render bridge comparison",
+      "statement": "The display-class-0x60, flags-zero type-0x1a bridge has 315 controlled native descriptor comparisons.",
+      "confidence": "differentially-verified", "scope": ["observed positive-step type-0x1a bridge route"],
+      "limits": "Projected fields 0x68/0x6c/0x70 and frame pointer 0x30 are upstream inputs; alternate classes and nonzero flags are outside the comparison.",
+      "invalidation": "Any fixture case or independently regenerated trace differs from the native descriptor.",
+      "function_records": ["ki15d_88001b90_type1a"], "related_uncertainties": ["U-006"],
+      "evidence": [{"class": "differential-verification", "availability": "tracked", "path": "docs/VERIFICATION.md", "locator": "compares all 315 results"}]
+    },
+    {
+      "id": "K-003", "title": "Emitter countdown and cadence semantics",
+      "statement": "Fighter bytes 0xc4 and 0xc5 control emitter countdown and cadence, and the stored byte truncation does not truncate the comparison register.",
+      "confidence": "differentially-verified", "scope": ["block 0x88003d30..0x88003d70"],
+      "limits": "This does not recover a universal fighter layout or the caller scheduler.",
+      "invalidation": "A controlled original decision disagrees with the declared untruncated comparison or memory access order.",
+      "function_records": ["ki15d_88003d30"], "related_uncertainties": ["U-002", "U-004"],
+      "evidence": [{"class": "differential-verification", "availability": "tracked", "path": "docs/TYPE1A_EMISSION.md", "locator": "untruncated register sum"}]
+    },
+    {
+      "id": "K-004", "title": "Observed contact seed",
+      "statement": "Executing stores in the controlled contact recorded receiver c4/c5/c6/c7 as 31/78/55/00 hexadecimal.",
+      "confidence": "differentially-verified", "scope": ["verified contact initializer and controlled Jago-versus-idle-Fulgore contact"],
+      "limits": "The 152-byte initializer is verified; surrounding hit selection, collision, damage and scheduling are not.",
+      "invalidation": "A repeat of the same declared scenario produces different executing store values after input identity is confirmed.",
+      "function_records": ["ki15d_8800a2e4"], "related_uncertainties": ["U-001"],
+      "evidence": [{"class": "differential-verification", "availability": "tracked", "path": "docs/VERIFICATION.md", "locator": "Two separately generated MAME 0.289"}]
+    },
+    {
+      "id": "K-005", "title": "Type-0x1a constructor state contract",
+      "statement": "The constructor reads fighter positions 0x04/0x08/0x0c, direction 0x74/0x78, and impact bytes 0xc4/0xc6/0xc7, then initializes one particle record.",
+      "confidence": "differentially-verified", "scope": ["constructor 0x8800b1fc supported paths"],
+      "limits": "Future mixed-ABI callers must independently establish required live register and continuation state.",
+      "invalidation": "A controlled case changes memory outside the contract or exposes an omitted required input/output.",
+      "function_records": ["ki15d_8800b1fc"], "related_uncertainties": ["U-004"],
+      "evidence": [{"class": "differential-verification", "availability": "tracked", "path": "provenance/functions/ki15d_8800b1fc.json", "locator": "fighter impact bytes 0xc4, 0xc6, and 0xc7"}]
+    },
+    {
+      "id": "K-006", "title": "Secondary-record allocator boundary",
+      "statement": "The allocator searches 29 0x100-byte records from 0x8808be00, then clears and returns unchecked fallthrough record 0x8808db00.",
+      "confidence": "differentially-verified", "scope": ["allocator 0x880053f4 bounded original behavior"],
+      "limits": "The fallthrough record's broader semantic purpose and surrounding memory remain unmapped.",
+      "invalidation": "A controlled all-occupied case does not clear 0x8808db00 or reveals a failure branch.",
+      "function_records": ["ki15d_880053f4"], "related_uncertainties": ["U-005"],
+      "evidence": [{"class": "differential-verification", "availability": "tracked", "path": "docs/OBJECT_MODEL.md", "locator": "There is no failure branch."}]
+    },
+    {
+      "id": "K-007", "title": "Saved constructor return address",
+      "statement": "The emitter call causes saved-return global 0x88087274 to receive 0x88003d6c.",
+      "confidence": "differentially-verified", "scope": ["emitter-to-constructor supported composition"],
+      "limits": "Temporary registers and wider guest liveness remain outside the current memory-oriented API.",
+      "invalidation": "Original call-boundary evidence or native composition produces another saved address.",
+      "function_records": ["ki15d_88003d30", "ki15d_8800b1fc"], "related_uncertainties": ["U-004"],
+      "evidence": [{"class": "differential-verification", "availability": "tracked", "path": "docs/TYPE1A_EMISSION.md", "locator": "saved return-address write is exactly `0x88003d6c`"}]
+    },
+    {
+      "id": "K-008", "title": "Observed particle animation lookup",
+      "statement": "Original byte 0x8800b2d8 selects animation index 0x0c; entry 0x8805e370 installed script 0x8805e6f2 in the observed revision.",
+      "confidence": "differentially-verified", "scope": ["first controlled type-0x1a particle"],
+      "limits": "General animation grammar, null-script initialization, and full load derivation remain open.",
+      "invalidation": "Verified source bytes or executing loads for the declared revision select a different entry or script.",
+      "function_records": ["ki15d_880063ac", "ki15d_8800b1fc"], "related_uncertainties": ["U-003", "U-006", "U-009"],
+      "evidence": [{"class": "differential-verification", "availability": "tracked", "path": "docs/OBJECT_MODEL.md", "locator": "particle used table index 12"}]
+    },
+    {
+      "id": "K-009", "title": "Observed complete impact counts",
+      "statement": "One controlled impact has 49 eligible emitter invocations, 7 allocations, 322 particle updates, 315 draws across 96 visible groups, and 7 releases.",
+      "confidence": "observed", "scope": ["repeated controlled Jago Endokuken impact on idle Fulgore"],
+      "limits": "These counts do not establish VBlank timing, a fixed tick, or game completeness.",
+      "invalidation": "A repeat with the same declared inputs and event normalization has a different sequence or digest.",
+      "function_records": ["ki15d_88003d30", "ki15d_88004e54"], "related_uncertainties": ["U-002", "U-005", "U-008"],
+      "evidence": [{"class": "observation", "availability": "tracked", "path": "docs/TYPE1A_EMISSION.md", "locator": "complete observed impact has 322 particle updates, 315 render calls across"}]
+    },
+    {
+      "id": "K-010", "title": "Emitter invocation spacing",
+      "statement": "Particles are emitted at eligible invocation indexes 0, 8, 16, 24, 32, 40, and 48; visible groups 1 through 3 omit a receiver invocation while particles continue updating.",
+      "confidence": "observed", "scope": ["controlled impact event ordering"],
+      "limits": "The cause is unresolved and must not become hardcoded skip logic or a once-per-frame assumption.",
+      "invalidation": "Event-level repeatability fails or the grouping boundary is shown to combine unrelated events.",
+      "function_records": ["ki15d_88003d30"], "related_uncertainties": ["U-002", "U-008"],
+      "evidence": [{"class": "observation", "availability": "tracked", "path": "docs/TYPE1A_EMISSION.md", "locator": "display frame would be incorrect"}]
+    },
+    {
+      "id": "K-011", "title": "Update order differs from draw order",
+      "statement": "Secondary updates were observed in ascending record address, while draw traversal uses a different recorded order.",
+      "confidence": "observed", "scope": ["controlled type-0x1a impact"],
+      "limits": "General ordering dependencies, slot reuse, camera, and world/depth inputs remain unrecovered.",
+      "invalidation": "A controlled ordered trace contradicts either traversal for the same state.",
+      "function_records": ["ki15d_88004e54", "ki15d_88001b90_type1a"], "related_uncertainties": ["U-005"],
+      "evidence": [{"class": "observation", "availability": "tracked", "path": "docs/TYPE1A_EMISSION.md", "locator": "draw traversal is different"}]
+    },
+    {
+      "id": "K-012", "title": "Historical frame-slot cache claim refuted",
+      "statement": "The old 0x88090164 marker was computed by instrumentation, while the executing class-11 load used 0x88090140 and agreed with debugger backing there; no same-address cache mismatch was demonstrated.",
+      "confidence": "refuted", "scope": ["controlled type-0x1a frame lookup"],
+      "limits": "This refutes only the historical 0x88090164 example and does not establish general CPU/debugger cache coherence.",
+      "invalidation": "A register-level trace demonstrates that this selected load actually used 0x88090164 or disagreed with backing at the executing 0x88090140 address.",
+      "function_records": ["ki15d_88001b90_type1a"], "related_uncertainties": ["U-006", "U-008"],
+      "evidence": [{"class": "observation", "availability": "tracked", "path": "docs/HARDWARE_BASELINE.md", "locator": "historical type-`0x1a` frame-lookup claim"}]
+    },
+    {
+      "id": "K-013", "title": "Static secondary dispatch candidate",
+      "statement": "Static inspection finds table 0x8803416c indexed by type times four, a type-0x1a target of 0x88004e54, and 0x100-byte record traversal.",
+      "confidence": "statically-derived", "scope": ["dispatcher fragment 0x88002038..0x880021d8"],
+      "limits": "The complete dispatcher, fighter follow-up, caller scheduling, and all type handlers are not reconstructed or dynamically verified.",
+      "invalidation": "Original bytes, target computation, or executing control flow contradicts this static mapping.",
+      "function_records": ["ki15d_88004e54"], "related_uncertainties": ["U-002", "U-005"],
+      "evidence": [
+        {"class": "static-analysis", "availability": "tracked", "path": "docs/OBJECT_MODEL.md", "locator": "Static dispatcher boundary"},
+        {"class": "static-analysis", "availability": "local-optional", "path": "work/tasks/POC-120B/DISCOVERY.md", "locator": "0x8803416c + type*4"}
+      ]
+    },
+    {
+      "id": "K-014", "title": "Static receiver gate candidate",
+      "statement": "Static inspection finds global byte 0x88087aec read at 0x88002a70 and a branch at 0x88002a74 that can skip the fighter path.",
+      "confidence": "hypothesis", "scope": ["candidate branch in common fighter updater"],
+      "limits": "This is not live proof that the branch causes the three omitted receiver invocations.",
+      "invalidation": "A live omitted interval does not take the gate or another path fully explains the omission.",
+      "function_records": [], "related_uncertainties": ["U-002"],
+      "evidence": [
+        {"class": "static-analysis", "availability": "tracked", "path": "docs/OBJECT_MODEL.md", "locator": "receiver gate candidate"},
+        {"class": "static-analysis", "availability": "local-optional", "path": "work/tasks/POC-120B/DISCOVERY.md", "locator": "88002a74"}
+      ]
+    },
+    {
+      "id": "K-015", "title": "Static contact lookup layout",
+      "statement": "The draft contact block statically uses row base 0x88034610 and variant mapping 0x88034647, whose addressed ranges can overlap.",
+      "confidence": "differentially-verified", "scope": ["contact block 0x8800a2e4..0x8800a378"],
+      "limits": "Lookup and alias semantics are verified only at this bounded initializer ABI, not wider descriptor ownership or scheduling.",
+      "invalidation": "Accepted original evidence disagrees with the address calculation or access ordering.",
+      "function_records": ["ki15d_8800a2e4"], "related_uncertainties": ["U-001"],
+      "evidence": [
+        {"class": "differential-verification", "availability": "tracked", "path": "docs/VERIFICATION.md", "locator": "exercises lookup and"},
+        {"class": "static-analysis", "availability": "tracked", "path": "docs/OBJECT_MODEL.md", "locator": "Unverified contact lookup"},
+        {"class": "static-analysis", "availability": "local-optional", "path": "work/tasks/POC-120B/DISCOVERY.md", "locator": "88034647"}
+      ]
+    },
+    {
+      "id": "K-016", "title": "Working driver hardware baseline",
+      "statement": "The current driver baseline places alternating framebuffers at low-RAM offsets 0x30000 and 0x58000 and assigns asymmetric read/write meanings to control addresses.",
+      "confidence": "statically-derived", "scope": ["current MAME KI1 driver working baseline"],
+      "limits": "A driver map is not an executed game device/event contract, and KI2 mappings do not apply.",
+      "invalidation": "The selected driver revision or original execution establishes different KI1 meanings.",
+      "function_records": [], "related_uncertainties": ["U-008"],
+      "evidence": [{"class": "static-analysis", "availability": "tracked", "path": "docs/HARDWARE_BASELINE.md", "locator": "This is a working baseline, not a definitive description"}]
+    }
+  ],
+  "uncertainties": [
+    {
+      "id": "U-001", "title": "Contact initializer exactness", "status": "resolved", "priority": "P0", "confidence": "differentially-verified",
+      "scope": ["block 0x8800a2e4..0x8800a378"], "impact": "The bounded initializer no longer blocks its dependents after independent acceptance.", "limits": "Resolution covers the declared memory ABI only; surrounding hit logic and scheduling remain separate open work.", "invalidation": "Any changed byte, access order, original output, or bounded native memory effect reopens the uncertainty.",
+      "owners": ["Astra", "Sol"], "blocked_tasks": ["none after accepted POC-120B1"],
+      "alternatives": ["exact 152-byte reconstruction", "read-order, alias, or wrap error in the draft"],
+      "next_experiment": "Retain the two accepted 18-case evidence identities and rerun after any initializer ABI or harness change.",
+      "function_records": ["ki15d_8800a2e4"], "evidence": [{"class": "differential-verification", "availability": "tracked", "path": "docs/VERIFICATION.md", "locator": "Two separately generated MAME 0.289"}, {"class": "review", "availability": "local-optional", "path": "work/tasks/POC-120B1/BRIEF.md", "locator": "Controlled original CPU cases"}]
+    },
+    {
+      "id": "U-002", "title": "Cause of three omitted receiver updates", "status": "open", "priority": "P0", "confidence": "hypothesis",
+      "scope": ["receiver caller gating and visible event grouping"], "impact": "Blocks faithful caller scheduling and the integrated native effect.", "limits": "The 0x88087aec gate is only a static candidate.", "invalidation": "The candidate gate is not taken during omitted intervals.",
+      "owners": ["Astra"], "blocked_tasks": ["POC-120B2", "POC-120D", "CORE-230"],
+      "alternatives": ["candidate pause gate", "another caller path", "grouping artifact"],
+      "next_experiment": "Capture gate values and writes, dispatch, contact, particle updates, framebuffer changes, and both fighters in one run.",
+      "function_records": ["ki15d_88003d30"], "evidence": [{"class": "observation", "availability": "tracked", "path": "docs/TYPE1A_EMISSION.md", "locator": "three omitted invocations has **not** been recovered"}]
+    },
+    {
+      "id": "U-003", "title": "Executable/data/load classification", "status": "open", "priority": "P0", "confidence": "hypothesis",
+      "scope": ["selected runnable slices and loaded regions"], "impact": "Blocks finite executable closure and safe wider translation.", "limits": "Boot segment 0 and current entry points are partial coverage.", "invalidation": "New executable identities invalidate address-only dispatch for the affected slice.",
+      "owners": ["Astra"], "blocked_tasks": ["MAP-150", "translation closure"],
+      "alternatives": ["fixed loaded code for a bounded slice", "additional disk code, overlays, or mutation"],
+      "next_experiment": "Combine source-to-destination load mapping, static targets, runtime loads, and code-write observations for a finite slice.",
+      "function_records": ["ki15d_8802aa24"], "evidence": [{"class": "static-analysis", "availability": "tracked", "path": "docs/HARDWARE_BASELINE.md", "locator": "U98 is still not the whole game."}]
+    },
+    {
+      "id": "U-004", "title": "Mixed-ABI helper safety", "status": "open", "priority": "P0", "confidence": "hypothesis",
+      "scope": ["generated callers and manual native helpers"], "impact": "Blocks a trustworthy mixed generated/manual ABI.", "limits": "Current memory-oriented helper contracts do not include a full CPU context.", "invalidation": "Any required live register, HI/LO, return, or continuation effect is absent from an adapter.",
+      "owners": ["Astra", "Sol"], "blocked_tasks": ["ABI-160", "XLT-170"],
+      "alternatives": ["existing outputs are sufficient", "callers require additional CPU state"],
+      "next_experiment": "Perform original caller/callee liveness analysis and a mixed-ABI differential harness over the selected boundary.",
+      "function_records": ["ki15d_88003d30", "ki15d_8800b1fc"], "evidence": [{"class": "differential-verification", "availability": "tracked", "path": "docs/TYPE1A_EMISSION.md", "locator": "test-only constructor observer"}]
+    },
+    {
+      "id": "U-005", "title": "Spawn positions and update/draw ordering", "status": "open", "priority": "P0", "confidence": "hypothesis",
+      "scope": ["multi-record impact scheduling and traversal"], "impact": "Blocks capture-free multi-particle state and draw ordering.", "limits": "One captured scenario may hide camera, depth, reuse, or priority dependencies.", "invalidation": "Any unexplained original/native position or ordering difference keeps the proposed model open.",
+      "owners": ["Astra"], "blocked_tasks": ["POC-120B3", "POC-120D", "CORE-240", "VID-320"],
+      "alternatives": ["world/depth/list state explains ordering", "additional priorities or camera/fighter dependencies"],
+      "next_experiment": "Capture ordered receiver, dispatch, update, and render checkpoints across mirrored, overlapping, and reused-slot cases.",
+      "function_records": ["ki15d_88004e54", "ki15d_88001b90_type1a"], "evidence": [{"class": "observation", "availability": "tracked", "path": "docs/TYPE1A_EMISSION.md", "locator": "draw traversal is different"}]
+    },
+    {
+      "id": "U-006", "title": "Projection and frame-pointer derivation", "status": "open", "priority": "P0", "confidence": "hypothesis",
+      "scope": ["upstream inputs to 0x88001b90"], "impact": "Blocks removal of captured render transforms and frame selections.", "limits": "The current bridge starts from supplied projected fields and a valid frame pointer.", "invalidation": "Source-derived upstream state cannot reproduce the existing bridge inputs.",
+      "owners": ["Astra", "Sol"], "blocked_tasks": ["POC-120C", "POC-120D", "VID-300", "VID-320"],
+      "alternatives": ["current mapping generalizes", "additional table, load, direction, or cache variants are required"],
+      "next_experiment": "Trace executing projection and lookup loads with source-derived tables, multiple sides, scales, tokens, and bounds.",
+      "function_records": ["ki15d_88001b90_type1a"], "evidence": [{"class": "implementation", "availability": "tracked", "path": "docs/OBJECT_MODEL.md", "locator": "position words from `0x68/0x6c`"}]
+    },
+    {
+      "id": "U-007", "title": "Faithful static translator route", "status": "open", "priority": "P0", "confidence": "hypothesis",
+      "scope": ["finite R4600LE connected-block pilot"], "impact": "Blocks selection of an economical scalable recompilation path.", "limits": "Verified manual routines do not establish a scalable translation route.", "invalidation": "Unsupported semantics or runtime decoding defeats a candidate.",
+      "owners": ["Astra", "Sol"], "blocked_tasks": ["XLT-170"],
+      "alternatives": ["adapt compatible reusable tooling", "minimal generator", "hybrid with bounded manual exceptions"],
+      "next_experiment": "Compare candidates on the same finite direct/indirect mixed-call pilot, including licensing, reproducibility, and diagnostics.",
+      "function_records": ["ki15d_8802aa24"], "evidence": [{"class": "implementation", "availability": "tracked", "path": "provenance/functions/ki15d_8802aa24.json", "locator": "\"status\": \"stub\""}]
+    },
+    {
+      "id": "U-008", "title": "Exact event and device contracts", "status": "open", "priority": "P0", "confidence": "hypothesis",
+      "scope": ["selected original runtime slice"], "impact": "Blocks faithful guest scheduling and hardware service integration.", "limits": "Driver VBlank, ATA, and control mappings do not prove a fixed tick or complete IRQ/CP0/cache behavior.", "invalidation": "Host refresh or event tie-order changes canonical original/native outcomes.",
+      "owners": ["Astra"], "blocked_tasks": ["CORE-220", "CORE-230", "CORE-280"],
+      "alternatives": ["simple deterministic boundaries suffice", "finer logical clock and cache/device interactions are required"],
+      "next_experiment": "Trace reads, writes, interrupts, acknowledgments, and load completion against executing CPU state and justified tie ordering.",
+      "function_records": [], "evidence": [{"class": "static-analysis", "availability": "tracked", "path": "docs/HARDWARE_BASELINE.md", "locator": "working baseline, not a definitive description"}]
+    },
+    {
+      "id": "U-009", "title": "Clean startup and data derivation", "status": "open", "priority": "P0", "confidence": "hypothesis",
+      "scope": ["lawful user inputs through chosen native entry"], "impact": "Blocks clean startup and removal of opaque state captures.", "limits": "A RAM match is not an initialization recipe and disk-loaded mutable tables remain dependencies.", "invalidation": "Startup requires an opaque snapshot or unexplained mutation.",
+      "owners": ["Astra", "Sol"], "blocked_tasks": ["CORE-220", "CORE-280", "capture removal"],
+      "alternatives": ["original loaders establish required state", "additional executed initialization or patches are required"],
+      "next_experiment": "Repeat clean input derivation while tracing load order and mutations, then compare chosen-entry table and state identities.",
+      "function_records": ["ki15d_8802aa24"], "evidence": [{"class": "static-analysis", "availability": "tracked", "path": "docs/HARDWARE_BASELINE.md", "locator": "IDE disk supplies"}]
+    },
+    {
+      "id": "U-010", "title": "DCS-faithful audio strategy", "status": "open", "priority": "P1", "confidence": "hypothesis",
+      "scope": ["game-side commands and required DCS behavior"], "impact": "Blocks selection and implementation of the faithful audio boundary.", "limits": "The hardware register baseline is not a complete DSP, timing, priority, or command model.", "invalidation": "A strategy cannot preserve representative simultaneous music, speech, and effects.",
+      "owners": ["Astra", "Sol"], "blocked_tasks": ["AUD-500", "AUD-510", "AUD-520"],
+      "alternatives": ["native translation of required audio execution", "proven-equivalent device implementation"],
+      "next_experiment": "Identify firmware/data/commands, reset and handshake behavior, timing, priorities, and representative mixes.",
+      "function_records": [], "evidence": [{"class": "static-analysis", "availability": "tracked", "path": "docs/HARDWARE_BASELINE.md", "locator": "Audio control"}]
+    },
+    {
+      "id": "U-011", "title": "Content outside the current scenario", "status": "open", "priority": "P1", "confidence": "hypothesis",
+      "scope": ["revision-specific roster, mechanics, modes, AI, service, and endings"], "impact": "Blocks content completeness and later product acceptance claims.", "limits": "One effect and bounded routine cases do not establish content coverage.", "invalidation": "Any required content row lacks dependency, implementation, or acceptance evidence.",
+      "owners": ["Astra", "human expert"], "blocked_tasks": ["CONTENT-600", "CORE-217", "completion"],
+      "alternatives": ["common paths partially generalize", "character, mode, AI, or service branches add new dependencies"],
+      "next_experiment": "Build a revision-specific content matrix combining expert scenarios with original control/data evidence.",
+      "function_records": [], "evidence": [{"class": "observation", "availability": "tracked", "path": "docs/OBJECT_MODEL.md", "locator": "Controlled Endokuken lifecycle"}]
+    },
+    {
+      "id": "U-012", "title": "Modern Linux presentation fidelity", "status": "open", "priority": "P1", "confidence": "hypothesis",
+      "scope": ["1080p, 4K, DPI, resize, fullscreen, and decorations"], "impact": "Blocks modern Linux presenter acceptance and the first playable build.", "limits": "A compiled SDL demo is not physical display coverage or proof of guest-state independence.", "invalidation": "Presentation changes canonical hashes or produces clipping, wrong aspect, or unstable pixel mapping.",
+      "owners": ["Sol", "human visual reviewer"], "blocked_tasks": ["VID-365", "first playable build"],
+      "alternatives": ["current mapping remains canonical", "physical/logical pixels or device behavior introduce divergence"],
+      "next_experiment": "Combine headless geometry/pixel tests with declared physical Linux resize, fullscreen, DPI, and decoration review.",
+      "function_records": [], "evidence": [{"class": "implementation", "availability": "tracked", "path": "docs/HARDWARE_BASELINE.md", "locator": "Visible display: 320 × 240"}]
+    },
+    {
+      "id": "U-013", "title": "Knowledge and evidence recoverability", "status": "open", "priority": "P0", "confidence": "hypothesis",
+      "scope": ["selected approved text and metadata"], "impact": "Affects whether future work can resume from durable technical context without conversation history.", "limits": "The local same-volume bundle excludes captures and game data and is not lost-disk protection; stored hashes do not prove game correctness.", "invalidation": "An allowlisted file cannot be restored byte-for-byte or essential excluded evidence lacks a regeneration path.",
+      "owners": ["Astra", "Sol", "storage owner"], "blocked_tasks": ["future evidence recovery"],
+      "alternatives": ["source-derived evidence remains reproducible", "indispensable local artifacts remain outside recoverable manifests"],
+      "next_experiment": "Restore-check the exact approved metadata allowlist and separately test regeneration recipes for excluded evidence; obtain explicit approval before external storage.",
+      "function_records": [], "evidence": [{"class": "differential-verification", "availability": "tracked", "path": "docs/VERIFICATION.md", "locator": "Metadata recovery boundary"}, {"class": "review", "availability": "local-optional", "path": "work/tasks/KNOW-090/BRIEF.md", "locator": "Owner-approved local backup boundary"}]
+    },
+    {
+      "id": "U-014", "title": "Performance and portability costs", "status": "open", "priority": "P2", "confidence": "hypothesis",
+      "scope": ["realistic generated/native core workloads"], "impact": "Blocks evidence-based optimization and later PC performance/portability gates.", "limits": "Small native proofs are not representative performance or cross-platform measurements.", "invalidation": "A fidelity-preserving implementation exceeds measured budgets or diverges across supported builds.",
+      "owners": ["Sol", "Astra"], "blocked_tasks": ["PC-735", "PC-750"],
+      "alternatives": ["current costs scale acceptably", "dispatch, memory, renderer, or audio costs require measured optimization"],
+      "next_experiment": "Benchmark the translator pilot first, then worst-case original scenarios on a declared Linux reference system while comparing headless state.",
+      "function_records": ["ki15d_8802d5b0"], "evidence": [{"class": "differential-verification", "availability": "tracked", "path": "docs/VERIFICATION.md", "locator": "not an estimated percentage of the game or a function count"}]
+    }
+  ]
+}

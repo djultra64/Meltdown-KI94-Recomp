@@ -1,0 +1,96 @@
+{
+  "format": "ki-native-pilot-identity-v1",
+  "game": "kinst-v1.5d",
+  "ram_bytes": 1048576,
+  "generated_words": 3187,
+  "generated_bytes": 12748,
+  "static_regions": [
+    {
+      "id": "startup-clear",
+      "entry": "0x880001c4",
+      "exit": "0x880001ec",
+      "source_words": 10,
+      "source_sha256": "855f53840283a2144b0dd564890c228a3893dac0c1986ef022c97a78fcaf601d",
+      "state_scope": "complete CPU context and 1 MiB main RAM; no low RAM or service effects",
+      "limits": "known startup clear only; exit remains typed unknown PC and is not an effect completion or full-startup boundary"
+    }
+  ],
+  "standing_health_guard": {
+    "range": "0x88003120..0x8800312c",
+    "selected_words": 3,
+    "sha256": "29393728d55ddbab59fe661311f7468da886b2242073893837a58ec53988fffc",
+    "contract": "zero-extended receiver health load; nonzero branch with delay slot to the already-enrolled 0x88003294 continuation",
+    "pc_flow_evidence": "work/mame/traces/type-12-projectile.trace lines 496..500",
+    "limits": "retained trace supports PC flow only; zero health falls through to the explicit unsupported frontier at 0x8800312c"
+  },
+  "positive_contact_class_guard": {
+    "range": "0x880035d4..0x880035e0",
+    "selected_words": 3,
+    "sha256": "fb44bf84cd4e5e2cc35c4299ee1aa2929598ac9f35022ac7697b8ed658e1e811",
+    "contract": "zero-extended receiver byte load; zero branch with delay slot to the already-enrolled 0x880036c8 continuation",
+    "pc_flow_evidence": "work/mame/traces/ki15d-type1a-render-path.trace lines 923882..923885",
+    "limits": "retained trace supports zero-route PC flow only; retained type-12-projectile trace lines 645..648 supports nonzero fallthrough PC flow only; register and memory effects are source-instruction contracts, and the nonzero continuation at 0x880035e0 remains unsupported"
+  },
+  "positive_contact_state_guards": {
+    "ranges": ["0x88003920..0x8800392c", "0x88003930..0x88003938"],
+    "selected_words": 5,
+    "sha256": ["cb485e127ed7dc9eb1df0a6f85c0e33a9be680596606ea57fa86e1652c1ba4bf", "efe90262b22d55f0e8392dd3d4ea0390fc451bb02e08ea2fde41f93e113dc81e"],
+    "contract": "low-bit mask of a2 with zero branch and delay slot to 0x88003930; zero gp branch with delay slot to 0x880039a8",
+    "pc_flow_evidence": "work/mame/traces/type-12-projectile.trace lines 734..739",
+    "limits": "retained trace supports the candidate's zero-a2 route and nonzero-gp fallthrough as PC flow only; opposite routes are source-instruction contracts, and 0x88003938 remains unsupported"
+  },
+  "connected_transaction": {
+    "entry": "0x8800099c",
+    "continuation": "0x880012b8 after the original contact wrapper returns",
+    "evidence": "MAME 0.289 DRC diagnostic fixture with full CPU/FPR and main/low RAM comparison",
+    "division_limit": "0x8800914c admits only the observed dividend -0xc00, divisor zero, incoming HI -3 and LO 8; DRC preserves HI and writes LO zero",
+    "limits": "diagnostic mode-6 camera/fighter inputs; not a production initializer, scheduler, positive contact, effect view, or hardware zero-divide claim"
+  },
+  "projection_transaction": {
+    "entry": "0x88001038",
+    "continuation": "0x88001228 for selected owner 0x8808c000 after four preceding records",
+    "selected_words": 382,
+    "source_ranges_sha256": "documented individually in work/tasks/POC-120C/RESEARCH.md",
+    "numerical_contract": "IEC 60559 binary32 round-to-nearest-even per operation; finite normals and signed zero only",
+    "limits": "FCSR flags/control, subnormal and non-finite arithmetic, other owners and the full projection loop are excluded"
+  },
+  "renderer_callee": {
+    "entry": "0x88001b90",
+    "continuation": "0x88001ae4",
+    "selected_words": 316,
+    "memory": "1 MiB main RAM plus 512 KiB authoritative low RAM",
+    "limits": "retained mode-0x70 forward nonnegative-facing family only"
+  },
+  "contact_transaction": {
+    "entry": "0x88008cdc",
+    "continuation": "0x88008fbc",
+    "selected_words": 1000,
+    "selected_words_sha256": "cf656d5d8905002ef3cbcea2d819d121b862ed1286cf159756937a243ddf0c3d",
+    "service_contract": "three tagged Count reads, four tagged byte MMIO reads, twelve journaled byte writes",
+    "floating_point_limit": "exact-operation subset; FCSR and dependent paths excluded"
+  },
+  "source_data": [
+    {"range": "0x8800b2d8..0x8800b2d9", "sha256": "ef6cbd2161eaea7943ce8693b9824d23d1793ffb1c0fca05b600d3899b44c977"},
+    {"range": "0x8805e370..0x8805e378", "sha256": "eab759ba801843ccbb5890c4d0260151a84b16f73f27a17293af76253f6660d5"},
+    {"range": "0x8805e6f2..0x8805e6f8", "sha256": "e23118c4c89399721771521fb980abb1d03f6c7c4f573e327b9e1fe6e8b8712f"},
+    {"range": "0x8804233c..0x88042348", "sha256": "d228b63a0be23dbdcebb95985a726f703955c297ddf02efaf17dcecd86367d16"},
+    {"range": "0x88042384..0x88042390", "sha256": "d228b63a0be23dbdcebb95985a726f703955c297ddf02efaf17dcecd86367d16"}
+  ],
+  "manual_adapter": {
+    "range": "0x880054d0..0x880054ec",
+    "bytes": 28,
+    "sha256": "5cd20496ebe2628e84587dbeff80c51806ef942a722a2d145156f479b2946fd4"
+  },
+  "load_segments": [
+    {"address": "0x88000000", "bytes": 208048, "sha256": "5dd923067b1a3398d4d26b6558e46cf396ab69b66afd5f8b183885b820e79b79"},
+    {"address": "0x88033900", "bytes": 332032, "sha256": "d3f0ffa007cb625fa95674bfe6be950b5b1ec04da24f70f948edf74abf365f15"}
+  ],
+  "frame_asset": {
+    "path": "work/assets/ki15d-boot-graphics/sector-0aaa-count-010a.bin",
+    "address": "0x88090100",
+    "bytes": 136192,
+    "sha256": "ca380a6cfbefd093c74a7ccc82827d0af3d91e23398a9f1b0f1490f35f66145e",
+    "runtime_ownership": "mutable snapshot RAM after authenticated one-time load"
+  },
+  "identity_derivation": "SHA-256 of this file's UTF-8 bytes exactly as tracked"
+}

@@ -1,0 +1,5 @@
+# Controlled calls captured from the original R4600 routine in MAME 0.289.
+record_address,fill_byte,guard_before,guard_after,expected_next_address
+88090000,5a,11223344,55667788,88090100
+88090200,ff,89abcdef,01234567,88090300
+88090400,3c,0badf00d,c001d00d,88090500

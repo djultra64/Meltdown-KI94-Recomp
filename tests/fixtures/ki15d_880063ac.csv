@@ -1,0 +1,6 @@
+# Controlled calls captured from the original R4600 routine in MAME 0.289.
+table_index,record_address,fill_byte,script_pointer,entry_byte4,entry_byte5,entry_byte6,entry_byte7,guard_before,guard_after
+0,88091000,5a,8805e53c,01,01,04,00,11223344,55667788
+3,88091200,ff,8805e588,06,06,04,00,89abcdef,01234567
+12,88091400,3c,8805e6f2,0a,0a,04,00,0badf00d,c001d00d
+20,88091600,c3,88776655,12,34,56,9a,deadbeef,facefeed

@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "id": "ki15d_8802aa24",
+  "name": "main_controller",
+  "game": {
+    "mame_set": "kinst",
+    "revision": "v1.5d",
+    "input_manifest": "work/input-inventory.json"
+  },
+  "original": {
+    "cpu": "R4600LE",
+    "virtual_address": "0x8802aa24",
+    "physical_address": "0x0802aa24",
+    "file_offset": null,
+    "source_image": "ki-l15d.u98",
+    "extracted_segment": {
+      "index": 0,
+      "load_address": "0x08000000",
+      "segment_offset": "0x0002aa24",
+      "size": 208048,
+      "sha256": "5dd923067b1a3398d4d26b6558e46cf396ab69b66afd5f8b183885b820e79b79"
+    },
+    "assembly_path": "work/asm/ki15d_main_loop_context.s",
+    "discovery_notes": "Reached by an unconditional jump at 0x8800034c. The recurring frame loop begins at 0x8802ae14 and returns there from 0x8802af2c in the observed attract-mode path. Name is provisional."
+  },
+  "reconstruction": {
+    "kind": "static-recompilation",
+    "status": "stub",
+    "source_path": null,
+    "hardware_dependencies": [
+      "CP0 Cause/VBlank through 0x88012614",
+      "player input at 0xb0000080 and 0xb0000088"
+    ]
+  },
+  "verification": {
+    "status": "unverified",
+    "fixtures": [
+      "work/mame/dumps/mainram-10s.bin",
+      "work/mame/traces/postboot-100ms.trace",
+      "work/kipack/ki15d/rom-0.bin"
+    ],
+    "mame_version": "0.289",
+    "commands": [
+      "mame/trace_postboot_100ms.cmd",
+      "python3 tools/ki_project.py compare-segments work/kipack/ki15d work/mame/dumps/mainram-10s.bin"
+    ],
+    "notes": "A 100 ms trace at t=10 s observed two complete returns to 0x8802ae14. The full rom-0 segment extracted from verified U98 matches the same RAM range byte-for-byte. Reconstruction has not started."
+  }
+}

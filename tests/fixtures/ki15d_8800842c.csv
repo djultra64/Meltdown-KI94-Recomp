@@ -1,0 +1,6 @@
+# Controlled calls captured from the original R4600 routine in MAME 0.289.
+case,record_address,fill_byte,position_before,velocity_before,acceleration3c,time_scale40,position_after,velocity_after
+1,88091000,a5,00005500,000000a0,fff6,0100,000055aa,000000aa
+2,88091200,3c,fffff000,ffffff80,0018,0080,ffffefba,ffffff74
+3,88091400,5a,7fffffff,80000000,7fff,0000,ffffffff,00000000
+4,88091600,c3,70000001,7f123456,8123,7f01,0000689c,00512477

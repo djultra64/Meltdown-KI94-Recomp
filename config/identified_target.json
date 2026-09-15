@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "identified_at": "2026-09-03",
+  "mame_set": "kinst",
+  "bios": "v1.5d",
+  "status": "verified",
+  "boot_rom": {
+    "name": "ki-l15d.u98",
+    "size": 524288,
+    "crc32": "7b65ca3d",
+    "sha1": "607394d4ba1713f38c2cb5159303cace9cde991e",
+    "match": "confirmed"
+  },
+  "audio_roms": {
+    "expected": 8,
+    "matched": 8
+  },
+  "disk": {
+    "name": "kinst.chd",
+    "format_version": 5,
+    "logical_bytes": 131076608,
+    "hunk_bytes": 4096,
+    "unit_bytes": 512,
+    "raw_sha1": "a37a2c5e52ea936a715210d237874dd573bb002f",
+    "combined_sha1": "81d833236e994528d1482979261401b198d1ca53",
+    "mame_match": "confirmed-from-header",
+    "full_hunk_verification": "passed-chdman-0.289"
+  },
+  "local_containers": {
+    "kinst.zip": {
+      "size": 4469576,
+      "sha256": "a2cbf4743a300195c144be23738e0494c1704df52089f23d5e0a02089c0774a3"
+    },
+    "kinst.chd": {
+      "size": 93887853,
+      "sha256": "2f9865cb69f6fc7ea440488d68c42e5c311e2cfcb0be6ce07805b13d3f8801a5"
+    }
+  }
+}

@@ -1,0 +1,133 @@
+{
+  "schema_version": 1,
+  "id": "ki15d-verify-095",
+  "identity": {
+    "mame_set": "kinst",
+    "revision": "v1.5d",
+    "cpu": "R4600LE"
+  },
+  "implementation_base": "289f2dc064715ef33781254dc1dcb3d621f1022e",
+  "source_segment": {
+    "path": "work/kipack/ki15d/rom-0.bin",
+    "index": 0,
+    "load_address": "0x08000000",
+    "size": 208048,
+    "sha256": "5dd923067b1a3398d4d26b6558e46cf396ab69b66afd5f8b183885b820e79b79",
+    "limits": "Verified U98-derived segment 0 only; not the complete runtime, disk contents, or all boot inputs."
+  },
+  "anchors": [
+    {
+      "id": "emitter-decisions",
+      "adapter": "emitter-decisions-v1",
+      "evidence_type": "reviewed legacy original-instruction decision oracle",
+      "source": {
+        "provenance_path": "provenance/functions/ki15d_88003d30.json",
+        "entry": "0x88003d30",
+        "exit": "0x88002088",
+        "segment_offset": "0x00003d30",
+        "size": 68,
+        "sha256": "8a29bbefe79e91ef120cacf7ad2dcda75d48c412025215b755bd6249331c853e"
+      },
+      "abi": {
+        "inputs": ["$fp receiver record bytes 0xc4/0xc5", "$gp forwarded to the constructor boundary"],
+        "outputs": ["ordered c4/c5 byte state and constructor-called decision digests", "original continuation 0x88002088"],
+        "excluded": ["temporary-register equivalence", "constructor body effects in this CPU digest", "caller scheduling", "contact initialization"]
+      },
+      "initialization": [
+        "load verified segment 0 at 0x88000000",
+        "set synthetic receiver at 0x88092000 and enumerate every c4/c5 byte pair",
+        "initialize each row digest to 0x811c9dc5"
+      ],
+      "bounded_memory": "CPU oracle digests c4/c5 and constructor-call occurrence; separate existing native tests compare bounded 1 KiB emitter RAM and 1 MiB constructor composition.",
+      "cache_observation": "No debugger backing-memory identity claim beyond the explicitly read receiver bytes in this controlled synthetic range.",
+      "interceptions": ["Constructor entry 0x8800b1fc is intercepted only after the original jal delay slot; body is skipped."],
+      "acquisition": {
+        "emulator": "MAME",
+        "version": "0.289",
+        "cpu_mode": "interpreter (-nodrc)",
+        "command_description": "Run kinst with mame/oracle_ki15d_88003d30.cmd, verified local inputs, debugger, -nodrc, and -oslog. This text is descriptive and is never executed by the replay runner."
+      },
+      "admission": {
+        "kind": "reviewed-legacy",
+        "review_path": "work/reviews/POC-120A.md",
+        "limits": "The retained log predates this manifest and does not self-attest revision, harness hash, source hash, or every metadata field. Admission relies on the recorded independent POC-120A review plus current dependency checks; it is not a fresh capture."
+      },
+      "public_dependencies": [
+        {"role": "function provenance", "path": "provenance/functions/ki15d_88003d30.json", "sha256": "1f79590dd9122d7cc3de94e5974b9f3341e287207524abc81427e6b0e7b5808f"},
+        {"role": "original assembly", "path": "provenance/asm/ki15d_88003d30.s", "sha256": "2134738bd6a06d04f087243a30bd10b43bc7f058447ea643cf6cf1a7e917d998"},
+        {"role": "capture script", "path": "mame/oracle_ki15d_88003d30.cmd", "sha256": "7de049c514b4389e5a295e115ada4b11ea4e88d101a4fb9b7ad4a78fd461a612"},
+        {"role": "fixed adapter dependency", "path": "tools/analyze_type1a_emission.py", "sha256": "7a6225a32afb8c216470b4755540171305a7c11aa70819c0dac95892b66722c5"},
+        {"role": "expected decision fixture", "path": "tests/fixtures/ki15d_88003d30.csv", "sha256": "370bff51a80d1b863e93d52f99b5ce66994507e1d4a32d6f9599aa31b7792bb6"},
+        {"role": "native source boundary", "path": "native/src/original/ki15d_88003d30.c", "sha256": "df33253edf9cde8f082e3c47298b5036fd2885f8553cfdbb21381e8916ff1881"},
+        {"role": "native decision test", "path": "native/tests/test_ki15d_88003d30_decision.c", "sha256": "5ee373ae0bb3d80dd26cd504648103aa6120023b4dea5d4c7c5b4d142f134b60"},
+        {"role": "native composition test", "path": "native/tests/test_ki15d_88003d30.c", "sha256": "86239735ab97333345309a261c7e786e926926f2116738b474274e6999fd0b34"}
+      ],
+      "private_capture": {
+        "path": "work/mame/traces/review-poc120a-oracle.log",
+        "size": 14660,
+        "sha256": "e304e6b30e0d63ed4c0ff6b74f8ed19aa0bd1a3dda7c1ecdd023e01ea47bd0cc"
+      },
+      "expected": {"rows": 256, "decisions": 65536, "completion_marker": "KI_EMITTER_ORACLE complete=10000"},
+      "completion_rule": "Exactly 256 ordered countdown rows of 256 cases followed by the 0x10000 completion marker; no oracle data may follow it.",
+      "native_verification": {"make_target": "test-native", "limits": "Must be freshly rebuilt; replay does not infer native PASS from a binary."},
+      "known_limits": ["Decision digests are not full-register or full-memory equivalence.", "No caller, displayed-frame, VBlank, or complete gameplay timing is verified."]
+    },
+    {
+      "id": "type1a-bridge",
+      "adapter": "type1a-bridge-v1",
+      "evidence_type": "reviewed legacy executing state-to-render trace and bounded native bridge fixture",
+      "source": {
+        "provenance_path": "provenance/functions/ki15d_88001b90_type1a.json",
+        "entry": "0x88001b90",
+        "exit": "0x88001e68 observed renderer-return completion boundary",
+        "segment_offset": "0x00001b90",
+        "size": 744,
+        "sha256": "21c9578787e588ac9ebf4d1014a0edb9c976e35b4cd2df2ae351e362244aa444"
+      },
+      "abi": {
+        "inputs": ["$fp type-0x1a record", "$t8 caller viewport height", "supplied projected record fields 0x68/0x6c/0x70 and valid frame pointer 0x30"],
+        "outputs": ["bounded scalar render descriptor compared with the 315-row native fixture"],
+        "excluded": ["general register ABI", "upstream projection and frame lookup", "palette-copy side effects", "nonzero 0x8e/0x97 behavior", "alternate display classes and nonzero flag routes"]
+      },
+      "initialization": [
+        "controlled Jago versus idle Fulgore autoplay reaches one Endokuken contact",
+        "capture begins before the first visible type-0x1a particle and ends after the last",
+        "the bridge fixture contains scalar record/header state and results, not packed frame or palette bytes"
+      ],
+      "bounded_memory": "Replay compares derived scalar descriptors only. Existing native tests separately seed declared guest fields and exercise synthetic render surfaces.",
+      "cache_observation": "Mixed observation: frame pointer $v1, palette $a0/$t6, framebuffer selector register, callbacks, and arithmetic intermediates are captured from executing registers. Some record/header fields are debugger reads and are not claimed universally cache-coherent; known dirty-cache pointer hazards remain explicit.",
+      "interceptions": ["No game routine body is intercepted; debugger breakpoints record phases from entry through the renderer return boundary."],
+      "acquisition": {
+        "emulator": "MAME",
+        "version": "0.289",
+        "cpu_mode": "default DRC setting (command uses -debug without -nodrc)",
+        "command_description": "Run kinst with trace_ki15d_type1a_state_to_render.cmd, autoplay_jago_vs_idle_fulgore.lua, verified local inputs, debugger, and -oslog. This text is descriptive and is never executed by the replay runner."
+      },
+      "admission": {
+        "kind": "reviewed-legacy",
+        "review_path": "work/reviews/POC-110R2.md",
+        "limits": "The retained log predates this manifest and does not self-attest revision, harness hash, source hash, or every metadata field. Admission records historical review and current dependency checks; it is not a fresh capture or blanket cache-safety claim."
+      },
+      "public_dependencies": [
+        {"role": "function provenance", "path": "provenance/functions/ki15d_88001b90_type1a.json", "sha256": "8405927ec84de361bb1b5b9c43692f2b228260614e01ab6362f57362b03053fa"},
+        {"role": "original assembly", "path": "provenance/asm/ki15d_88001b90_type1a.s", "sha256": "a5c3f7ee8120c5f260c8c4325b010f53edfdfc9798686024603c61bc94e60849"},
+        {"role": "capture script", "path": "mame/trace_ki15d_type1a_state_to_render.cmd", "sha256": "91d11ffce35e826142a05c9e3105565f69f3643b73ea9fd92088989b64c1b0a8"},
+        {"role": "autoplay script", "path": "mame/autoplay_jago_vs_idle_fulgore.lua", "sha256": "ffeff9e71c47b6e93af38b899155e483ef9596c54b385408c4aa9d229ac905ec"},
+        {"role": "fixed adapter dependency", "path": "tools/analyze_type1a_state_to_render.py", "sha256": "9fc5b150b9daffa71ae68ae369787fd31ccd022e044538b388083d4df5e1367f"},
+        {"role": "expected bridge fixture", "path": "tests/fixtures/ki15d_88001b90_type1a_bridge.csv", "sha256": "d3db646af96212ee97b1874d2d35d272fbc8833d661ae0eb647f757cf0c01111"},
+        {"role": "timeline reference", "path": "tests/fixtures/ki15d_type1a_state_to_render.csv", "sha256": "825842abe19a2f1c8cf3642139b0070a08db06715661f01452e6a2b45ecb492b"},
+        {"role": "native source boundary", "path": "native/src/original/ki15d_88001b90_type1a.c", "sha256": "9071b0f9b7a5ee24c064275380e7cff3ab5a9d40e65f34b6a4feb4f9981a9afb"},
+        {"role": "native bridge test", "path": "native/tests/test_ki15d_88001b90_type1a.c", "sha256": "95830632cbf7b09755b9921226ef36de6145892d3f95d0f24901993844163882"}
+      ],
+      "private_capture": {
+        "path": "work/mame/traces/ki15d-type1a-state-to-render-a.log",
+        "size": 680396,
+        "sha256": "75afe192cb17997489c1351354022b6aacafec2e9088d1fd5a66a4ab7277a8ac"
+      },
+      "expected": {"calls": 315, "visible_groups": 96, "required_phases_per_call": 9},
+      "completion_rule": "Every ordered call has input, renderer, vertical_fixed, surface, clip, dispatch, first_row, palette_lookup, and done phases; timeline validation must reach 315 calls across 96 framebuffer-defined groups.",
+      "native_verification": {"make_target": "test-native", "limits": "Must be freshly rebuilt; replay does not infer native PASS from a binary."},
+      "known_limits": ["Function provenance remains reconstruction in-progress and verification partial.", "Projected fields and frame pointer are supplied upstream; caller scheduling, palette side effects, general ABI, and gameplay closure remain open."]
+    }
+  ]
+}

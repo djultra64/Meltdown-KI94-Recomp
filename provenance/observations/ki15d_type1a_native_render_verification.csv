@@ -1,0 +1,3 @@
+# Full-store comparison for one original frame. The ignored MAME log retains each address/input/blend/output tuple; this compact row records the verified result.
+object,token,frame_pointer,destination_x,destination_y,x_scale,x_remainder,y_accumulator,y_scale,mame_pixel_writes,native_pixel_writes,address_mismatches,word_mismatches
+8808c000,0b,88097ea4,266,123,104d,0d44,25e8,17f1,597,597,0,0

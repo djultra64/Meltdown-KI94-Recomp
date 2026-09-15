@@ -1,0 +1,70 @@
+{
+  "schema_version": 1,
+  "id": "ki15d_88004e54",
+  "name": "update_type_1a_particle",
+  "game": {
+    "mame_set": "kinst",
+    "revision": "v1.5d",
+    "input_manifest": "work/input-inventory.json"
+  },
+  "original": {
+    "cpu": "R4600LE",
+    "virtual_address": "0x88004e54",
+    "physical_address": "0x08004e54",
+    "file_offset": null,
+    "source_image": "ki-l15d.u98",
+    "extracted_segment": {
+      "index": 0,
+      "load_address": "0x08000000",
+      "segment_offset": "0x00004e54",
+      "segment_size": 208048,
+      "segment_sha256": "5dd923067b1a3398d4d26b6558e46cf396ab69b66afd5f8b183885b820e79b79",
+      "function_size": 56,
+      "function_sha256": "c4498c07620efaf50cfbee1bcab095ea540d173506b7eaf96fa13f2cdd327605"
+    },
+    "assembly_path": "provenance/asm/ki15d_88004e54.s",
+    "calling_convention": {
+      "inputs": "$fp points to an active type-0x1a record; $gp supplies the orientation/order identity used by called routines",
+      "return": "Jumps to common object dispatch at 0x88002088; a zero animation pointer first routes through release at 0x880045ac"
+    },
+    "memory_access": {
+      "reads": [
+        "all state consumed by the three called motion/animation routines",
+        "vertical scale halfword at record offset 0x5a",
+        "post-animation script pointer at offset 0x20"
+      ],
+      "writes": [
+        "motion and animation state through called recovered routines",
+        "vertical scale offset 0x5a increased by 0x0080",
+        "the complete record through 0x880054d0 when animation terminates"
+      ]
+    },
+    "discovery_notes": "Every state write in one live type-0x1a lifetime assigns this exact call order: 0x88004180 planar motion, 0x8800842c vertical integration, 0x88006670 animation, then scale growth. The 46th update clears the stream pointer and reaches general release 0x880054d0.",
+    "called_functions": [
+      "0x88004180 update_planar_motion",
+      "0x8800842c update_scaled_vertical_motion",
+      "0x88006670 common_animation_interpreter",
+      "0x880054d0 clear_object_record on termination"
+    ]
+  },
+  "reconstruction": {
+    "kind": "static-recompilation",
+    "status": "implemented",
+    "source_path": "native/src/original/ki15d_88004e54.c",
+    "hardware_dependencies": []
+  },
+  "verification": {
+    "status": "trace-matched",
+    "fixtures": [
+      "provenance/observations/ki15d_type1a_native_lifetime.csv",
+      "work/mame/traces/ki15d-type1a-state-writes.log",
+      "work/kipack/ki15d/rom-0.bin",
+      "work/kipack/ki15d/rom-1.bin"
+    ],
+    "mame_version": "0.289",
+    "commands": [
+      "make check"
+    ],
+    "notes": "The integration test constructs the exact first live particle from original data, runs 45 active updates, matches the pre-release position, velocity, token, timer, script, and scales captured by MAME, then verifies that update 46 clears all 256 record bytes. Each called reconstruction also retains its independent controlled MAME fixtures."
+  }
+}

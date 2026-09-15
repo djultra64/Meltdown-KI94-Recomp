@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "id": "ki15d_88004180",
+  "name": "update_planar_motion",
+  "game": {
+    "mame_set": "kinst",
+    "revision": "v1.5d",
+    "input_manifest": "work/input-inventory.json"
+  },
+  "original": {
+    "cpu": "R4600LE",
+    "virtual_address": "0x88004180",
+    "physical_address": "0x08004180",
+    "file_offset": null,
+    "source_image": "ki-l15d.u98",
+    "extracted_segment": {
+      "index": 0,
+      "load_address": "0x08000000",
+      "segment_offset": "0x00004180",
+      "segment_size": 208048,
+      "segment_sha256": "5dd923067b1a3398d4d26b6558e46cf396ab69b66afd5f8b183885b820e79b79",
+      "function_size": 140,
+      "function_sha256": "497d6c35d14bd4f7161bd382b90f4e944a4796fa01a1f450e0df8ea47beeac33"
+    },
+    "assembly_path": "provenance/asm/ki15d_88004180.s",
+    "calling_convention": {
+      "inputs": "$fp points to the current 0x100-byte object record",
+      "return": "No explicit return value"
+    },
+    "memory_access": {
+      "reads": [
+        "position words at record offsets 0x04 and 0x08",
+        "signed direction halfwords at offsets 0x7c and 0x80",
+        "one-shot movement at 0x7e, persistent movement at 0x84, and decay at 0x86"
+      ],
+      "writes": [
+        "consumed one-shot movement at record offset 0x7e",
+        "updated position words at offsets 0x04 and 0x08",
+        "decayed persistent movement at offset 0x84",
+        "latest movement deltas at 0x88087b20 and 0x88087b24"
+      ]
+    },
+    "discovery_notes": "The type-0x1a per-frame handler at 0x88004e54 calls this routine before gravity, animation, and scale growth. Entry 0x88004180 loads the one-shot amount as signed; 0x88004188 is a distinct unsigned alternate entry. The semantic name is limited to the verified record transformations."
+  },
+  "reconstruction": {
+    "kind": "static-recompilation",
+    "status": "implemented",
+    "source_path": "native/src/original/ki15d_88004180.c",
+    "hardware_dependencies": []
+  },
+  "verification": {
+    "status": "trace-matched",
+    "fixtures": [
+      "tests/fixtures/ki15d_88004180.csv",
+      "work/mame/traces/oracle-ki15d-88004180.trace",
+      "work/kipack/ki15d/rom-0.bin"
+    ],
+    "mame_version": "0.289",
+    "commands": [
+      "flatpak run org.mamedev.MAME kinst -rompath assets/ki1 -debug -nodrc -debugscript mame/oracle_ki15d_88004180.cmd -video none -sound none -nothrottle -skip_gameinfo -seconds_to_run 4 -cfg_directory work/mame/cfg -diff_directory work/mame/diff",
+      "make check"
+    ],
+    "notes": "Four controlled R4600 calls cover the live type-0x1a state, a signed negative one-shot amount, the early return, position wraparound, and decay clamping. The native test reconstructs and compares the complete 1 MiB mapped RAM image after every call."
+  }
+}

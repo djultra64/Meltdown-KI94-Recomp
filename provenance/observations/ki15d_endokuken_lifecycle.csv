@@ -1,0 +1,11 @@
+# Controlled two-human-player match: P1 Jago (type 0x01), P2 idle Fulgore (type 0x06).
+# Project owner confirmed that the captured green visual is the Endokuken impact.
+event,observed_pc,record_address,type,context_address,notes
+projectile_slot_cleared,88005428,8808be00,00,88006d90,allocator completed before opcode handler initialized the record
+projectile_initializer_assigned,88006da0,8808be00,13,88006d90,script opcode 0x15 handler created the record
+projectile_activated,880045d4,8808be00,12,880045bc,type 0x13 transitioned in place to active type 0x12
+contact_slot_cleared,88005428,8808bf00,00,8800a52c,allocator selected the next free record at contact
+contact_initializer_assigned,8800a5b8,8808bf00,14,8800a52c,type 0x14 copied the projectile contact position
+contact_activated,88004424,8808bf00,15,88004408,type 0x14 transitioned in place to active type 0x15
+first_hit_particle_assigned,8800b214,8808c000,1a,8800b1fc,receiver-side counter was 0x30 when the first particle was emitted
+projectile_released,880054d8,8808be00,00,880054d0,active type 0x12 was cleared after its script pointer became zero

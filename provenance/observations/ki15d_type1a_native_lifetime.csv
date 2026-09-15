@@ -1,0 +1,5 @@
+# Checkpoints from the first live type-0x1a record, reproduced by the native integration test.
+phase,completed_updates,active,position04,position08,position0c,velocity10,token14,timer18,script20,scale58,scale5a
+ready,0,1,ffff9a00,00000000,00005500,000000a0,00,00000000,8805e6f2,1000,1000
+pre_release,45,1,ffff5680,00000000,0000998e,00000262,15,00000000,8805e71a,1000,2680
+released,46,0,00000000,00000000,00000000,00000000,00,00000000,00000000,0000,0000

@@ -1,0 +1,5 @@
+# Controlled before/after values captured from the original R4600 routine in MAME 0.289.
+first_byte,source_0,source_4,source_8,source_c,destination_0,destination_4,destination_8,destination_c,expected_destination_0,expected_destination_4,expected_destination_8,expected_destination_c
+ab,0badf00d,01234567,89abcdef,13579bdf,a5a5a5a5,b6b6b6b6,c7c7c7c7,d8d8d8d8,a5a5a5ab,01234567,89abcdef,13579bdf
+00,deadbeef,00000000,ffffffff,80000001,11223344,55667788,99aabbcc,ddeeff00,11223300,00000000,ffffffff,80000001
+ff,cafebabe,10203040,50607080,90a0b0c0,01020304,11121314,21222324,31323334,010203ff,10203040,50607080,90a0b0c0

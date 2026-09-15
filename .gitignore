@@ -1,0 +1,34 @@
+# Copyrighted or user-supplied game data
+assets/
+roms/
+*.chd
+*.CHD
+*.img
+*.IMG
+*.raw
+*.RAW
+*.zip
+*.7z
+
+# Generated analysis and local tools
+work/
+build/
+ghidra-projects/
+*.rep/
+*.gpr
+
+# Native build output
+native/build/
+*.o
+*.a
+*.so
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Editor/OS
+.DS_Store
+*~
+

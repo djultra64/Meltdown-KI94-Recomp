@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "id": "ki15d_88003d30",
+  "name": "receiver_particle_emission_block",
+  "game": {
+    "mame_set": "kinst",
+    "revision": "v1.5d",
+    "input_manifest": "work/input-inventory.json"
+  },
+  "original": {
+    "cpu": "R4600LE",
+    "virtual_address": "0x88003d30",
+    "physical_address": "0x08003d30",
+    "file_offset": null,
+    "source_image": "ki-l15d.u98",
+    "extracted_segment": {
+      "index": 0,
+      "load_address": "0x08000000",
+      "segment_offset": "0x00003d30",
+      "segment_size": 208048,
+      "segment_sha256": "5dd923067b1a3398d4d26b6558e46cf396ab69b66afd5f8b183885b820e79b79",
+      "function_size": 68,
+      "function_sha256": "8a29bbefe79e91ef120cacf7ad2dcda75d48c412025215b755bd6249331c853e"
+    },
+    "assembly_path": "provenance/asm/ki15d_88003d30.s",
+    "calling_convention": {
+      "inputs": "$fp receiver record; $gp forwarded to original constructor",
+      "return": "Block jumps to 0x88002088; native API returns memory status and zero or allocated address, not temporary-register state"
+    },
+    "memory_access": {
+      "reads": [
+        "receiver byte 0xc4; byte 0xc5 only when c4 is nonzero",
+        "conditional constructor dependencies: receiver 04/08/0c, 74/78, c4/c6/c7; allocator search records; animation index and selected table entry"
+      ],
+      "writes": [
+        "receiver byte c4 decremented, then c5 accumulator stored; c5 reset again in jal delay slot on emission",
+        "conditional constructor dependencies: 0x88087274 saved return address and selected secondary-object record, including allocator clear"
+      ]
+    },
+    "called_functions": ["0x8800b1fc create_type_1a_from_fighter"],
+    "discovery_notes": "Internal receiver updater block, not a full function. Live initializer writes c4/c5/c6/c7=31/78/55/00; 49 eligible invocations emit at indices 0,8,16,24,32,40,48. Receiver invocations are absent in displayed groups 1..3 while particles continue; the controlling caller branch and hit initialization are not recovered here."
+  },
+  "reconstruction": {
+    "kind": "static-recompilation",
+    "status": "implemented",
+    "source_path": "native/src/original/ki15d_88003d30.c",
+    "hardware_dependencies": []
+  },
+  "verification": {
+    "status": "trace-matched",
+    "fixtures": [
+      "tests/fixtures/ki15d_88003d30.csv",
+      "tests/fixtures/ki15d_type1a_state_to_render.csv",
+      "work/mame/traces/oracle-ki15d-88003d30-b.log",
+      "work/mame/traces/poc120-emission-d.log"
+    ],
+    "mame_version": "0.289",
+    "commands": [
+      "flatpak run org.mamedev.MAME kinst -rompath assets/ki1 -debug -nodrc -debugscript mame/oracle_ki15d_88003d30.cmd -video none -sound none -nothrottle -skip_gameinfo -seconds_to_run 5 -cfg_directory work/mame/cfg -diff_directory work/mame/diff -oslog > work/mame/traces/oracle-ki15d-88003d30.log 2>&1",
+      "python3 tools/analyze_type1a_emission.py oracle work/mame/traces/oracle-ki15d-88003d30.log --output work/emitter-regenerated.csv",
+      "cmp tests/fixtures/ki15d_88003d30.csv work/emitter-regenerated.csv",
+      "make check"
+    ],
+    "notes": "Decision oracle executes all 65,536 c4/c5 pairs in the original CPU and intercepts only the constructor entry AFTER the original jal delay slot. Native link-stub tests compare per-countdown uint32 digests, every byte of bounded 1 KiB RAM and constructor call arguments. Real-constructor integration compares full 1 MiB RAM against explicit emitter state composed with the independently verified constructor, for both gp branches, noncanonical nonzero gp, occupied slots and the original occupied fallback; this is dependency composition, not a new full-constructor CPU oracle. Memory failures are host API tests. No claim of full temporary-register equivalence, contact initializer, caller timing, scheduler, projection or frame lookup recovery."
+  }
+}

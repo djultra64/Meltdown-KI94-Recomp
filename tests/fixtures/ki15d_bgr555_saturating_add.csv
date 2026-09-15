@@ -1,0 +1,14 @@
+# Values captured from registers immediately before and after the KI v1.5d store at 0x8801195c during the controlled Endokuken replay.
+destination,blend,output
+046b,10c3,152e
+046b,2e49,32b4
+046b,32ab,3716
+3b36,0c82,47b8
+3b36,1d66,5bfc
+2e94,3f4d,6fff
+2612,438e,6bff
+2e53,47cf,77ff
+0442,1d66,21a8
+048b,3f4d,43d8
+0442,3b0c,3f4e
+046b,0ca3,110e

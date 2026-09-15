@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "id": "ki15d_8800a2e4",
+  "name": "initialize_contact_effect_receiver",
+  "game": {
+    "mame_set": "kinst",
+    "revision": "v1.5d",
+    "input_manifest": "work/input-inventory.json"
+  },
+  "original": {
+    "cpu": "R4600LE",
+    "virtual_address": "0x8800a2e4",
+    "physical_address": "0x0800a2e4",
+    "file_offset": null,
+    "source_image": "ki-l15d.u98",
+    "extracted_segment": {
+      "index": 0,
+      "load_address": "0x08000000",
+      "segment_offset": "0x0000a2e4",
+      "segment_size": 208048,
+      "segment_sha256": "5dd923067b1a3398d4d26b6558e46cf396ab69b66afd5f8b183885b820e79b79",
+      "function_size": 152,
+      "function_sha256": "8d10efb5394ef73b8ad2e8e909097d8162086196e2ac520a9e25638c321a1555"
+    },
+    "assembly_path": "provenance/asm/ki15d_8800a2e4.s",
+    "calling_convention": {
+      "inputs": "$fp receiver record, $t4 attacker record, $t5 hit descriptor",
+      "return": "Internal block continues at 0x8800a37c; native API returns only bounded memory status"
+    },
+    "memory_access": {
+      "reads": [
+        "descriptor bytes 0x1d twice, 0x13 and 0x1a in original order",
+        "selected 8-byte lookup row bytes 0..2 at 0x88034610 + low_nibble*8",
+        "attacker and receiver position word 0x0c on the computed-height route",
+        "attacker byte 0x8e and optional variant byte at 0x88034647 + high_nibble"
+      ],
+      "writes": [
+        "receiver bytes 0xc4, 0xc5, 0xc6 and 0xc7 in order; earlier writes remain on later mapping failure"
+      ]
+    },
+    "discovery_notes": "The low-nibble row range and high-nibble variant map overlap in one guest address space. Unsigned subtraction wraps to 32 bits before the signed-negative clamp; final stores truncate to bytes. Aliasing can change the second descriptor 0x1d read."
+  },
+  "reconstruction": {
+    "kind": "static-recompilation",
+    "status": "implemented",
+    "source_path": "native/src/original/ki15d_8800a2e4.c",
+    "hardware_dependencies": []
+  },
+  "verification": {
+    "status": "trace-matched",
+    "fixtures": [
+      "tests/fixtures/ki15d_8800a2e4_inputs.csv",
+      "tests/fixtures/ki15d_8800a2e4.csv",
+      "work/mame/contact-init-full-20260914-a/result.json",
+      "work/mame/contact-init-full-20260914-b/result.json"
+    ],
+    "mame_version": "0.289",
+    "commands": [
+      "python3 tools/contact_initializer_oracle.py full-reduce work/mame/contact-init-full-20260914-a --output work/mame/contact-init-full-20260914-a/scalars.csv --report work/mame/contact-init-full-20260914-a/result.json",
+      "cmp work/mame/contact-init-full-20260914-a/scalars.csv work/mame/contact-init-full-20260914-b/scalars.csv",
+      "make -B check"
+    ],
+    "notes": "Two fresh -nodrc controlled runs independently reached exact terminal PC 0x8800a37c for all 18 cases and produced identical scalar CSV SHA-256 091205165a3da3e001f2223083ca4d7e579e573bbe6abc115feab80a5c3d9e30. Executing effect/row/store/reread values agreed with ordered debugger before/after snapshots; every 16 KiB window and overlapping lookup table was bounded. This validates the declared control harness, not organic cache coherence, temporary registers, surrounding hit logic, scheduling, collision, damage, or gameplay."
+  }
+}

@@ -1,0 +1,80 @@
+{
+  "schema_version": 1,
+  "source": "https://github.com/mamedev/mame/blob/master/src/mame/rare/kinst.cpp",
+  "target": {
+    "mame_set": "kinst",
+    "bios": "v1.5d",
+    "title": "Killer Instinct (v1.5d)"
+  },
+  "files": [
+    {
+      "role": "main_boot_rom",
+      "name": "ki-l15d.u98",
+      "size": 524288,
+      "crc32": "7b65ca3d",
+      "sha1": "607394d4ba1713f38c2cb5159303cace9cde991e"
+    },
+    {
+      "role": "dcs_audio_rom",
+      "name": "u10-l1",
+      "size": 524288,
+      "crc32": "b6cc155f",
+      "sha1": "810d455df8f385d76143e9d7d048f2b555ff8bf0"
+    },
+    {
+      "role": "dcs_audio_rom",
+      "name": "u11-l1",
+      "size": 524288,
+      "crc32": "0b5e05df",
+      "sha1": "0595909cb667c38ac7c8c7bd0646b28899e27777"
+    },
+    {
+      "role": "dcs_audio_rom",
+      "name": "u12-l1",
+      "size": 524288,
+      "crc32": "d05ce6ad",
+      "sha1": "7a8ee405c118fd176b66353fa7bfab888cc63cd2"
+    },
+    {
+      "role": "dcs_audio_rom",
+      "name": "u13-l1",
+      "size": 524288,
+      "crc32": "7d0954ea",
+      "sha1": "ea4d1f153eb284f1bcfc5295fbce316bba6083f4"
+    },
+    {
+      "role": "dcs_audio_rom",
+      "name": "u33-l1",
+      "size": 524288,
+      "crc32": "8bbe4f0c",
+      "sha1": "b22e365bc8d58a80eaac226be14b4bb8d9a04844"
+    },
+    {
+      "role": "dcs_audio_rom",
+      "name": "u34-l1",
+      "size": 524288,
+      "crc32": "b2e73603",
+      "sha1": "ee439f5162a2b3379d3f802328017bb3c68547d2"
+    },
+    {
+      "role": "dcs_audio_rom",
+      "name": "u35-l1",
+      "size": 524288,
+      "crc32": "0aaef4fc",
+      "sha1": "48c4c954ac9db648f28ad64f9845e19ec432eec3"
+    },
+    {
+      "role": "dcs_audio_rom",
+      "name": "u36-l1",
+      "size": 524288,
+      "crc32": "0577bb60",
+      "sha1": "cc78070cc41701e9a91fde5cfbdc7e1e83354854"
+    },
+    {
+      "role": "ata_disk_chd_logical",
+      "name": "kinst.chd",
+      "sha1": "81d833236e994528d1482979261401b198d1ca53"
+    }
+  ]
+}
+

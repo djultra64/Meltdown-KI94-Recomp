@@ -1,0 +1,6 @@
+# Controlled calls captured from the original R4600 constructor in MAME 0.289.
+case,fighter_address,fighter_fill,gp,return_address,first_record_fill,pos4,pos8,posc,dir74,dir78,c4,c6,c7,expected_selected,expected_variant,expected_posc,expected_dir7c,expected_dir80,expected_one_shot,expected_persistent,expected_scale
+1,88091000,5a,1,8800b300,00,ffff9a00,00000000,00000000,ffffff00,00000000,30,55,00,8808be00,00,00005500,ff00,0000,0000,0180,1000
+2,88091200,3c,0,8800b300,ff,12345678,89abcdef,ffffff00,12345678,ffff0100,10,20,e5,8808bf00,05,00001f00,a988,ff00,f800,0080,0c00
+3,88091400,5a,1,8800b300,00,7ffffff0,80000010,ffffff80,00008001,ffff7fff,00,ff,ff,8808be00,1f,0000fe80,8001,7fff,f400,0000,0800
+4,88091600,c3,0,8800b300,00,fffffff0,00000010,7fffff80,00000100,fffffe00,1a,01,60,8808be00,00,80000080,ff00,0200,fa80,00d0,1000

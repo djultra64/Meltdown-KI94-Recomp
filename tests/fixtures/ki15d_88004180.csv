@@ -1,0 +1,6 @@
+# Controlled calls captured from the original R4600 routine in MAME 0.289.
+case,record_address,fill_byte,pos4_before,pos8_before,axis7c,one_shot7e,axis80,persistent84,decay86,global20_before,global24_before,pos4_after,pos8_after,one_shot7e_after,persistent84_after,global20_after,global24_after
+1,88091000,a5,ffff9a00,00000000,ff00,0000,0000,0180,0000,11223344,55667788,ffff9880,00000000,0000,0180,fffffe80,00000000
+2,88091200,3c,00001000,fffff000,0200,ff80,ff00,0040,0010,aaaaaaaa,bbbbbbbb,00000f00,fffff080,0000,0030,ffffff00,00000080
+3,88091400,5a,7fffffff,80000000,7fff,0000,8000,0000,1234,13579bdf,2468ace0,7fffffff,80000000,0000,0000,13579bdf,2468ace0
+4,88091600,c3,7ffffff0,80000010,0100,0000,0100,0020,0040,deadbeef,facefeed,80000010,80000030,0000,0000,00000020,00000020

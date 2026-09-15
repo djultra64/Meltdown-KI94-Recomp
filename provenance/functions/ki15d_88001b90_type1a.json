@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "id": "ki15d_88001b90_type1a",
+  "name": "prepare_secondary_type1a_render",
+  "game": {
+    "mame_set": "kinst",
+    "revision": "v1.5d",
+    "input_manifest": "work/input-inventory.json"
+  },
+  "original": {
+    "cpu": "R4600LE",
+    "virtual_address": "0x88001b90",
+    "physical_address": "0x08001b90",
+    "file_offset": null,
+    "source_image": "ki-l15d.u98",
+    "extracted_segment": {
+      "index": 0,
+      "load_address": "0x08000000",
+      "segment_offset": "0x00001b90",
+      "segment_size": 208048,
+      "segment_sha256": "5dd923067b1a3398d4d26b6558e46cf396ab69b66afd5f8b183885b820e79b79",
+      "function_size": 744,
+      "function_sha256": "21c9578787e588ac9ebf4d1014a0edb9c976e35b4cd2df2ae351e362244aa444"
+    },
+    "assembly_path": "provenance/asm/ki15d_88001b90_type1a.s",
+    "calling_convention": {
+      "inputs": "$fp points to the secondary object record; $t8 is the viewport height supplied by the caller",
+      "return": "No explicit value; the observed type-0x1a path selects a palette and invokes renderer 0x880107a8"
+    },
+    "memory_access": {
+      "reads": [
+        "type-0x1a record fields 0x24, 0x30, 0x58/0x5a, 0x68/0x6c/0x70, 0x8c/0x8e, 0x94/0x95/0x97, 0xc8, and 0xca",
+        "packed-frame header and the packed row-size bytes walked during first-source-row selection, starting at frame + 8",
+        "framebuffer selector byte at 0x88086200",
+        "viewport height at 0x88087b40; original entry 0x88001b90 first seeds this global from caller register $t8, while native descriptor preparation reads the seeded value",
+        "palette bank beginning at 0x88090100 plus the selected 0x100-byte bank"
+      ],
+      "writes": [
+        "viewport height global at 0x88087b40",
+        "selected palette-source global at 0x880359c8 and 0x100-byte working palette at 0x88090000 through helper 0x88001ffc",
+        "alternating BGR555 framebuffer through renderer 0x880107a8"
+      ]
+    },
+    "discovery_notes": "For the controlled Endokuken impact, display class 0x60 and flags 0 route directly from this function to 0x880107a8. The partial native reconstruction resolves signed positions, optional 12-bit x/y scale multipliers, pixel direction, frame lookup/header, horizontal clip bounds, high-edge vertical rejection and packed-row walking, viewport, framebuffer bank, palette source, renderer mode/callback, and initial downscale row. Record bytes 0x8e and 0x97 are zero in all observed calls; nonzero values are explicitly unsupported because their alternate mode-0x60 palette semantics are not yet verified. Palette-copy side effects, negative-palette special handling, other display classes, and nonzero flag branches remain outside this evidence boundary."
+  },
+  "reconstruction": {
+    "kind": "static-recompilation",
+    "status": "in-progress",
+    "source_path": "native/src/original/ki15d_88001b90_type1a.c",
+    "hardware_dependencies": [
+      "KI alternating 320x240 16-bit framebuffer selection",
+      "KI palette-bank and working-palette RAM"
+    ]
+  },
+  "verification": {
+    "status": "partial",
+    "fixtures": [
+      "tests/fixtures/ki15d_type1a_state_to_render.csv",
+      "tests/fixtures/ki15d_88001b90_type1a_bridge.csv",
+      "work/mame/traces/ki15d-type1a-state-to-render-a.log",
+      "work/mame/traces/ki15d-type1a-state-to-render-b.log",
+      "work/kipack/ki15d/rom-0.bin"
+    ],
+    "mame_version": "0.289",
+    "commands": [
+      "flatpak run org.mamedev.MAME kinst -rompath assets/ki1 -debug -debugscript mame/trace_ki15d_type1a_state_to_render.cmd -autoboot_script mame/autoplay_jago_vs_idle_fulgore.lua -video none -sound none -nothrottle -skip_gameinfo -seconds_to_run 35 -cfg_directory work/mame/cfg -diff_directory work/mame/diff -oslog",
+      "python3 tools/analyze_type1a_state_to_render.py work/mame/traces/ki15d-type1a-state-to-render-a.log --fixture tests/fixtures/ki15d_type1a_state_to_render.csv",
+      "python3 tools/analyze_type1a_state_to_render.py work/mame/traces/ki15d-type1a-state-to-render-b.log --bridge-fixture tests/fixtures/ki15d_88001b90_type1a_bridge.csv",
+      "make poc110-compare",
+      "make check"
+    ],
+    "notes": "Two independent controlled traces have identical KI_S2R lines. The analyzer recomputes every declared transform for 315 calls across 96 displayed ticks. Native guest-state preparation matches every descriptor field for all 315 calls, including zero-valued record bytes 0x8e and 0x97. First, six ordered peak calls, and final-call synthetic framebuffer comparisons give identical oracle/state hash 1a8693d815eebeed. Synthetic boundary tests cover the statically recovered negative direction, exact reverse callback-table entries, left/both clipping, wholly and partly high-clipped vertical spans, combined high clipping/downscaling, and malformed or truncated row walks. Organic trace coverage remains positive direction with none/right clipping. Status remains partial because palette-copy side effects, nonzero 0x8e/0x97 palette behavior, negative-palette handling, alternate display classes, and nonzero flag branches are intentionally unsupported."
+  }
+}

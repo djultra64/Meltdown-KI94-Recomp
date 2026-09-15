@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "id": "ki15d_88002060_native_pilot",
+  "name": "bounded_connected_type1a_pilot",
+  "game": {
+    "mame_set": "kinst",
+    "revision": "v1.5d",
+    "input_manifest": "work/input-inventory.json"
+  },
+  "original": {
+    "cpu": "R4600LE",
+    "virtual_address": "0x88002060",
+    "physical_address": "0x08002060",
+    "file_offset": null,
+    "source_image": "ki-l15d.u98",
+    "assembly_path": "provenance/asm/ki15d_88002060_native_pilot.s",
+    "discovery_notes": "The finite pilot enrolls 3177 unique words / 12708 bytes. Its bounded positive-contact additions are source-pinned guards at 0x880035d4..0x880035e0, 0x88003920..0x8800392c and 0x88003930..0x88003938. Retained original traces corroborate only the stated PC routes; their register and memory behavior remains a source-instruction contract. The candidate reaches the unsupported 0x88003938 continuation. Earlier enrollment includes the receiver-health guard at 0x88003120..0x8800312c and its retained nonzero PC-flow evidence. Source segment SHA-256 values are 5dd923067b1a3398d4d26b6558e46cf396ab69b66afd5f8b183885b820e79b79 and d3f0ffa007cb625fa95674bfe6be950b5b1ec04da24f70f948edf74abf365f15."
+  },
+  "reconstruction": {
+    "kind": "static-recompilation",
+    "status": "implemented",
+    "source_path": "native/src/native_pilot.c",
+    "hardware_dependencies": []
+  },
+  "verification": {
+    "status": "trace-matched",
+    "fixtures": [
+      "work/mame/native-pilot-matrix-20260914-a/run.log",
+      "work/mame/native-pilot-matrix-20260914-a/*-before.bin",
+      "work/mame/native-pilot-matrix-20260914-a/*-after.bin",
+      "work/mame/dispatcher-pilot-20260914-a/run.log",
+      "work/mame/dispatcher-pilot-20260914-a/*-before.bin",
+      "work/mame/dispatcher-pilot-20260914-a/*-after.bin",
+      "work/mame/resumed-dispatcher-pilot-20260914-a/run.log",
+      "work/mame/resumed-dispatcher-pilot-20260914-a/*-before.bin",
+      "work/mame/resumed-dispatcher-pilot-20260914-a/*-after.bin",
+      "work/mame/allocation-dispatcher-pilot-20260914-a/run.log",
+      "work/mame/allocation-dispatcher-pilot-20260914-a/*-before.bin",
+      "work/mame/allocation-dispatcher-pilot-20260914-a/*-after.bin",
+      "provenance/native_pilot_manifest.json"
+    ],
+    "mame_version": "0.289",
+    "commands": [
+      "python3 tools/compare_native_pilot_oracle.py work/mame/native-pilot-matrix-20260914-a",
+      "python3 tools/compare_dispatcher_pilot_oracle.py work/mame/dispatcher-pilot-20260914-a",
+      "python3 tools/compare_resumed_dispatcher_pilot_oracle.py work/mame/resumed-dispatcher-pilot-20260914-a",
+      "python3 tools/compare_allocation_dispatcher_pilot_oracle.py work/mame/allocation-dispatcher-pilot-20260914-a",
+      "make check"
+    ],
+    "notes": "The record, paused, resumed and allocation-inclusive matrices compare every byte of fixed 1 MiB RAM plus all final GPR/HI/LO/PC fields. Allocation matrix A covers six source-informed free/occupied/fallback/orientation cases; its ordered log/before/after evidence digest is b33b68df16a3297c49af1b782fa686db514e7f80a5d4b37fd67809936b35fa30. Independent review owns acceptance and commit."
+  }
+}

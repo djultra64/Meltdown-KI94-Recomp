@@ -1,0 +1,32 @@
+{
+  "_template": true,
+  "schema_version": 1,
+  "id": "ki15d_80001234",
+  "name": "provisional_name",
+  "game": {
+    "mame_set": "kinst",
+    "revision": "v1.5d",
+    "input_manifest": "work/input-inventory.json"
+  },
+  "original": {
+    "cpu": "R4600LE",
+    "virtual_address": "0x80001234",
+    "physical_address": null,
+    "file_offset": null,
+    "assembly_path": "work/asm/ki15d_80001234.s",
+    "discovery_notes": ""
+  },
+  "reconstruction": {
+    "kind": "static-recompilation",
+    "status": "stub",
+    "source_path": null,
+    "hardware_dependencies": []
+  },
+  "verification": {
+    "status": "unverified",
+    "fixtures": [],
+    "mame_version": "",
+    "commands": [],
+    "notes": ""
+  }
+}

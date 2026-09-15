@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "id": "ki15d_88006670_type1a",
+  "name": "advance_animation_type1a_path",
+  "game": {
+    "mame_set": "kinst",
+    "revision": "v1.5d",
+    "input_manifest": "work/input-inventory.json"
+  },
+  "original": {
+    "cpu": "R4600LE",
+    "virtual_address": "0x88006670",
+    "physical_address": "0x08006670",
+    "file_offset": null,
+    "source_image": "ki-l15d.u98",
+    "extracted_segment": {
+      "index": 0,
+      "load_address": "0x08000000",
+      "segment_offset": "0x00006670",
+      "segment_size": 208048,
+      "segment_sha256": "5dd923067b1a3398d4d26b6558e46cf396ab69b66afd5f8b183885b820e79b79",
+      "function_size": 396,
+      "function_sha256": "2b7c33a8be8ac4f6ba88827611ad2cc07a67b0c22ea006dac19b01a3aaf38edf"
+    },
+    "assembly_path": "provenance/asm/ki15d_88006670_type1a.s",
+    "calling_convention": {
+      "inputs": "$fp points to the current object record; $gp participates in command opcode 0x10; $ra is saved at 0x8808727c",
+      "return": "No explicit value; token, timer, stream pointer, and command side effects are written to RAM"
+    },
+    "memory_access": {
+      "reads": [
+        "installed stream pointer at record offset 0x20 and command bytes from that stream",
+        "animation timer at offset 0x18 and signed time scale at offset 0x42",
+        "32-byte ordering table at 0x880872a0 when opcode 0x10 requests a move"
+      ],
+      "writes": [
+        "saved return address at 0x8808727c",
+        "current token 0x14, timer 0x18, and stream pointer 0x20",
+        "ordering scratch 0x880872c0 and active ordering table 0x880872a0 for a nontrivial opcode 0x10"
+      ]
+    },
+    "discovery_notes": "The type-0x1a stream at 0x8805e6f2 begins with opcode 0x10, advances through token-duration pairs 0x04..0x15, and ends with opcode 0x14. The native reconstruction deliberately covers only an already-installed stream plus those two commands. The routine's null-script descriptor initialization and all other command handlers remain outside this record."
+  },
+  "reconstruction": {
+    "kind": "static-recompilation",
+    "status": "in-progress",
+    "source_path": "native/src/original/ki15d_88006670_type1a.c",
+    "hardware_dependencies": []
+  },
+  "verification": {
+    "status": "partial",
+    "fixtures": [
+      "tests/fixtures/ki15d_88006670_type1a.csv",
+      "work/mame/traces/oracle-ki15d-88006670-type1a.trace",
+      "work/mame/traces/ki15d-type1a-state-writes.log",
+      "work/kipack/ki15d/rom-0.bin",
+      "work/kipack/ki15d/rom-1.bin"
+    ],
+    "mame_version": "0.289",
+    "commands": [
+      "flatpak run org.mamedev.MAME kinst -rompath assets/ki1 -debug -nodrc -debugscript mame/oracle_ki15d_88006670_type1a.cmd -video none -sound none -nothrottle -skip_gameinfo -seconds_to_run 6 -cfg_directory work/mame/cfg -diff_directory work/mame/diff",
+      "make check"
+    ],
+    "notes": "Seven controlled calls cover the original particle-stream start, ordinary countdown, next-token parsing, signed fixed-point duration division, low-byte timer carry, opcode 0x14 termination, and a nontrivial opcode 0x10 ordering-table move. Every supported case matches the complete 1 MiB RAM image; the record remains partial because unrelated generic interpreter paths are intentionally unsupported."
+  }
+}

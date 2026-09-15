@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "id": "ki15d_880053f4",
+  "name": "allocate_secondary_object_slot",
+  "game": {
+    "mame_set": "kinst",
+    "revision": "v1.5d",
+    "input_manifest": "work/input-inventory.json"
+  },
+  "original": {
+    "cpu": "R4600LE",
+    "virtual_address": "0x880053f4",
+    "physical_address": "0x080053f4",
+    "file_offset": null,
+    "source_image": "ki-l15d.u98",
+    "extracted_segment": {
+      "index": 0,
+      "load_address": "0x08000000",
+      "segment_offset": "0x000053f4",
+      "segment_size": 208048,
+      "segment_sha256": "5dd923067b1a3398d4d26b6558e46cf396ab69b66afd5f8b183885b820e79b79",
+      "function_size": 60,
+      "function_sha256": "d8e8143226a28b209d201d5413a3d770b57f5210c8bc1b4a633a7b408f009eb1"
+    },
+    "assembly_path": "provenance/asm/ki15d_880053f4.s",
+    "calling_convention": {
+      "inputs": "No explicit arguments",
+      "return": "$a2 contains the selected record address"
+    },
+    "memory_access": {
+      "reads": ["byte 0 of up to 29 records beginning at 0x8808be00"],
+      "writes": ["all 256 bytes of the selected record, in descending word order"]
+    },
+    "discovery_notes": "Called immediately before 0x8800700c by all three known callers. The name describes the observed pool behavior and remains subject to refinement as the complete object model is recovered."
+  },
+  "reconstruction": {
+    "kind": "static-recompilation",
+    "status": "implemented",
+    "source_path": "native/src/original/ki15d_880053f4.c",
+    "hardware_dependencies": []
+  },
+  "verification": {
+    "status": "trace-matched",
+    "fixtures": [
+      "tests/fixtures/ki15d_880053f4.csv",
+      "work/mame/traces/oracle-ki15d-880053f4.trace",
+      "work/kipack/ki15d/rom-0.bin"
+    ],
+    "mame_version": "0.289",
+    "commands": [
+      "flatpak run org.mamedev.MAME kinst -rompath assets/ki1 -debug -nodrc -debugscript mame/oracle_ki15d_880053f4.cmd -video none -sound none -nothrottle -skip_gameinfo -seconds_to_run 4 -cfg_directory work/mame/cfg -diff_directory work/mame/diff",
+      "make check"
+    ],
+    "notes": "Four controlled R4600 calls cover a free first record, one occupied record, the last of 29 searchable records, and the all-occupied fallthrough record. The native test compares the complete 1 MiB mapped RAM image after each call."
+  }
+}

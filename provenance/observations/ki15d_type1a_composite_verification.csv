@@ -1,0 +1,4 @@
+# Verification summary for one complete controlled Endokuken type-0x1a impact. The substantial raw traces and game-derived frame bytes remain ignored under work/.
+scope,display_frames,renderer_calls,particle_lifetimes,maximum_simultaneous_particles,framebuffer_writes,unique_destination_pixels,native_mismatches,notes
+complete_timeline,96,315,7,6,,,,tokens 0x04 through 0x15 retain the original secondary-pass order
+peak_frame,1,6,,6,5321,4101,0,same-run transforms and live R4600 blend operands compared against the native packed renderer

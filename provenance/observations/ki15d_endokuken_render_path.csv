@@ -1,0 +1,22 @@
+# Controlled Jago-versus-idle-Fulgore replay in MAME 0.289. The two watched positions are inside the Endokuken impact confirmed by the project owner.
+event,pc,record_address,type,token,state_34,class,field_94,frame_pointer_or_cursor,destination,input_color,blend_operand,output_color,notes
+ordinary_class_filter,880018b8,8808bf00,15,01,06,11,,88095d74,,,,,class 0x11 branches around the ordinary sprite-renderer call
+ordinary_class_filter,880018b8,8808c000,1a,0d,0a,11,,880981a0,,,,,class 0x11 branches around the ordinary sprite-renderer call
+secondary_renderer_entry,880107a8,8808c000,1a,0b,0a,11,60,88097ea4,,,,,header is origin (12 8) and size 25x22
+secondary_renderer_entry,880107a8,8808c000,1a,0c,0a,11,60,88097fec,,,,,header is origin (14 10) and size 27x27
+secondary_renderer_entry,880107a8,8808c000,1a,0d,0a,11,60,880981a0,,,,,called from 0x88001e60 and returns to 0x88001e68
+secondary_renderer_entry,880107a8,8808c000,1a,0e,0a,11,60,88098394,,,,,packed frame header begins 000b000e:001e001c
+secondary_renderer_entry,880107a8,8808c000,1a,0f,0a,11,60,880985b8,,,,,packed frame header begins 000f000f:00220021
+secondary_renderer_entry,880107a8,8808c000,1a,10,0a,11,60,88098808,,,,,packed frame header begins 00110012:00260025
+secondary_renderer_entry,880107a8,8808c000,1a,11,0a,11,60,88098ab4,,,,,packed frame header begins 00140013:00290028
+secondary_renderer_entry,880107a8,8808c000,1a,12,0a,11,60,88098da0,,,,,packed frame header begins 00110012:00280029
+secondary_renderer_entry,880107a8,8808c000,1a,13,0a,11,60,880990e0,,,,,header is origin (17 19) and size 38x44
+target_pixel_write,8801195c,8808c300,1a,0b,0a,11,60,88097fb8,80067c08,046b,10c3,152e,core sample in framebuffer bank 1
+target_pixel_write,8801195c,8808c300,1a,0c,0a,11,60,88098121,8003fc08,046b,2e49,32b4,core sample in framebuffer bank 0
+target_pixel_write,8801195c,8808c000,1a,0e,0a,11,60,880984c5,8003fc08,048b,3f4d,43d8,core sample in framebuffer bank 0
+target_pixel_write,8801195c,8808c000,1a,0e,0a,11,60,88098562,8003e2fe,0442,1d66,21a8,halo sample in framebuffer bank 0
+target_pixel_write,8801195c,8808c000,1a,0f,0a,11,60,88098764,8003e2fe,0442,3b0c,3f4e,halo sample in framebuffer bank 0
+target_pixel_write,8801195c,8808c000,1a,10,0a,11,60,880989a6,8003e2fe,0442,3b0c,3f4e,halo sample in framebuffer bank 0
+target_pixel_write,8801195c,8808c000,1a,11,0a,11,60,88098bf0,8003e2fe,0442,32ab,36ed,halo sample in framebuffer bank 0
+target_pixel_write,8801195c,8808c000,1a,12,0a,11,60,88098e8d,8003e2fe,0442,1945,1d87,halo sample in framebuffer bank 0
+target_pixel_write,8801195c,8808c000,1a,13,0a,11,60,88099145,800662fe,0442,0020,0462,halo sample in framebuffer bank 1

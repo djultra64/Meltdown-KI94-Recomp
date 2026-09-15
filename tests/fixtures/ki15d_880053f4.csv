@@ -1,0 +1,6 @@
+# Controlled return addresses captured from the original R4600 routine in MAME 0.289.
+occupied_records,expected_address
+0,8808be00
+1,8808bf00
+28,8808da00
+29,8808db00

@@ -1,0 +1,72 @@
+{
+  "schema_version": 1,
+  "id": "ki15d_8800b1fc",
+  "name": "create_type_1a_from_fighter",
+  "game": {
+    "mame_set": "kinst",
+    "revision": "v1.5d",
+    "input_manifest": "work/input-inventory.json"
+  },
+  "original": {
+    "cpu": "R4600LE",
+    "virtual_address": "0x8800b1fc",
+    "physical_address": "0x0800b1fc",
+    "file_offset": null,
+    "source_image": "ki-l15d.u98",
+    "extracted_segment": {
+      "index": 0,
+      "load_address": "0x08000000",
+      "segment_offset": "0x0000b1fc",
+      "segment_size": 208048,
+      "segment_sha256": "5dd923067b1a3398d4d26b6558e46cf396ab69b66afd5f8b183885b820e79b79",
+      "function_size": 220,
+      "function_sha256": "e189cfaff19e99200bbe66fe01e16faf805c50c23d9831ccc5cc68e8b6950e12"
+    },
+    "assembly_path": "provenance/asm/ki15d_8800b1fc.s",
+    "calling_convention": {
+      "inputs": "$fp points to the receiver fighter; $gp selects whether direction words are retained or negated; $ra is saved through a shared setup tail",
+      "return": "$t2 retains the allocated type-0x1a record; control returns through the $ra value stored at 0x88087274"
+    },
+    "memory_access": {
+      "reads": [
+        "fighter position words 0x04, 0x08, and 0x0c",
+        "fighter direction words 0x74 and 0x78",
+        "fighter impact bytes 0xc4, 0xc6, and 0xc7",
+        "particle animation index byte at 0x8800b2d8",
+        "allocator state and animation-table entry through called verified routines"
+      ],
+      "writes": [
+        "saved return address at 0x88087274",
+        "one newly allocated and cleared secondary-object record",
+        "type, placement, motion, scale, flags, and animation state within that record"
+      ]
+    },
+    "discovery_notes": "Reached organically from receiver-side emission block 0x88003d30 during a controlled Jago Endokuken hit on idle Fulgore. The first live call uses countdown 0x30 and height byte 0x55, allocates 0x8808c000, and installs animation index 12. The body jumps backward to shared setup tail 0x8800b1d8, which calls verified animation initializer 0x880063ac.",
+    "called_functions": [
+      "0x880053f4 allocate_secondary_object_slot",
+      "0x880063ac initialize_object_animation"
+    ]
+  },
+  "reconstruction": {
+    "kind": "static-recompilation",
+    "status": "implemented",
+    "source_path": "native/src/original/ki15d_8800b1fc.c",
+    "hardware_dependencies": []
+  },
+  "verification": {
+    "status": "trace-matched",
+    "fixtures": [
+      "tests/fixtures/ki15d_8800b1fc.csv",
+      "work/mame/traces/oracle-ki15d-8800b1fc.trace",
+      "work/mame/traces/ki15d-endokuken-particles.trace",
+      "work/kipack/ki15d/rom-0.bin",
+      "work/kipack/ki15d/rom-1.bin"
+    ],
+    "mame_version": "0.289",
+    "commands": [
+      "flatpak run org.mamedev.MAME kinst -rompath assets/ki1 -debug -nodrc -debugscript mame/oracle_ki15d_8800b1fc.cmd -video none -sound none -nothrottle -skip_gameinfo -seconds_to_run 5 -cfg_directory work/mame/cfg -diff_directory work/mame/diff",
+      "make check"
+    ],
+    "notes": "Four controlled full-constructor calls cover the exact first live particle, both $gp orientation branches, a skipped occupied pool record, the computed-scale range, the 0x1a scale boundary, byte masking, and 32-bit position wrapping. The native test composes the two already verified dependencies and compares the complete 1 MiB mapped RAM image after every call."
+  }
+}
