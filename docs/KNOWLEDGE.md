@@ -26,6 +26,25 @@ partial, absent from the demo, or dependent on captured upstream state.
 
 ## Current boundary
 
+Status reviewed September 19, 2026. The current native pilot includes connected
+execution of the bounded `0x8800099c` to `0x880012b8` phase, selected contact,
+projection, frame-selection and renderer transactions, and scoped snapshot
+replay. Their source and state contracts are recorded in
+[`provenance/native_pilot_manifest.json`](../provenance/native_pilot_manifest.json).
+Diagnostic initialization and captured upstream state still limit these proofs;
+the executable demo continues to use a captured effect timeline.
+
+The separately registered startup-clear region covers only
+`[0x880001c4, 0x880001ec)`. Retained original endpoint comparison covers GPRs,
+HI/LO, Status, raw FPRs and 1 MiB main RAM. The original clear targets were
+already zero, so a separate nonzero-memory test provides native write-effect
+coverage. This is not a full ordered-store differential, FCSR/TLB validation,
+or whole-boot proof. The runtime deliberately rejects snapshots of this region.
+
+The historical scoped observations below remain valid within their stated
+limits. This summary does not promote unfinished routines or imply that every
+recent local investigation has been incorporated into the knowledge catalog.
+
 The strongest connected evidence remains the controlled type-`0x1a` Endokuken
 impact: 49 eligible emitter invocations, seven allocations, 322 updates, 315
 draws across 96 visible groups, and seven releases. The initial contact seed is

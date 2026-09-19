@@ -11,86 +11,55 @@ logic as practical and run it natively through verified decompilation, static
 recompilation, or a combination of both. New code is limited to tooling, tests,
 and explicit replacements for arcade hardware and host-platform services.
 
-## Current status
+## Current status — September 19, 2026
 
-- Working revision confirmed as **KI v1.5d**. The main boot ROM and all eight
-  audio ROMs match the MAME manifest, and `chdman` fully verified the CHD.
-- MAME 0.289 and Ghidra 12.1.3 are installed and scripted on Linux.
-- Boot ROM, RAM snapshots, and an initial 100 ms execution trace were captured.
-- The U98 compressed payload was extracted into three segments and compared
-  with MAME RAM. The segment containing the main loop matches byte-for-byte.
-- The provisional main controller at `0x8802aa24` and recurring loop head at
-  `0x8802ae14` have provenance records and seeded Ghidra labels.
-- A minimal R4600 memory model runs in the native PC test harness.
-- The original routine at `0x8802d5b0` now executes natively on PC and matches
-  seven controlled 64-bit input/output cases produced by its R4600 code in MAME.
-- The original record-copy routine at `0x8800700c` now runs through that memory
-  model. Three controlled MAME cases match, including a byte-for-byte comparison
-  of the full 1 MiB native test RAM after each call.
-- Its three known callers now establish that it initializes secondary objects
-  from fighter records. A live match reached the type-`0x1f` caller organically.
-- The preceding allocator at `0x880053f4` also runs natively. Four controlled
-  MAME cases match, including its unusual all-occupied fallthrough behavior.
-- A controlled Jago-versus-idle-Fulgore match now traces the Endokuken from its
-  type-`0x13` initializer to active type `0x12`, then separates the type
-  `0x14`/`0x15` central contact object from the timed type-`0x1a` particle burst.
-  The project owner's visual review confirms that the complete green effect is
-  the Endokuken impact.
-- The general object-release routine at `0x880054d0` now runs natively and
-  matches three controlled MAME cases with full-RAM comparisons.
-- The animation initializer at `0x880063ac` also runs natively. Its verified
-  index-12 path links the type-`0x1a` particle to original command stream
-  `0x8805e6f2`.
-- Two original per-frame motion routines now run natively. `0x88004180`
-  updates the particle's planar position and decaying movement amount;
-  `0x8800842c` integrates its signed acceleration, velocity, and vertical
-  position. Eight controlled MAME cases match complete native RAM images,
-  including R4600 overflow and truncation behavior.
-- The complete type-`0x1a` constructor at `0x8800b1fc` now runs natively by
-  composing the verified allocator and animation initializer. Four full-RAM
-  MAME cases cover the exact first live Endokuken particle, both orientation
-  branches, pool selection, scale boundaries, masking, and position wraparound.
-- The installed-stream path through common interpreter `0x88006670` now
-  advances type-`0x1a` animation natively from token `0x04` through `0x15` and
-  handles its original `0x10` setup and `0x14` termination commands. Seven
-  controlled full-RAM cases match; unrelated generic interpreter paths remain
-  explicitly unsupported rather than guessed.
-- Handler `0x88004e54` now composes those recovered routines in original order.
-  Starting from the real first-particle constructor state, the native lifetime
-  matches the MAME checkpoint after 45 active ticks and clears all 256 record
-  bytes on release tick 46.
-- Pixel-level traces now prove that live type-`0x1a` records write both sampled
-  core and halo pixels of the confirmed Endokuken impact through the secondary
-  render pass and common software renderer.
-- A native packed-frame decoder now expands the original five-bit run data. It
-  decodes the real frame at `0x88097ea4` to its exact 25x22 index image and has
-  bounds/error-path tests independent of copyrighted game data.
-- The type-`0x1a` 32-entry green blend table is recovered, and the original
-  branch-free BGR555 saturating add matches 12 MAME register cases. Eighteen
-  authentic packed frames are mapped from token `0x04` through token `0x15`.
-- A new native packed renderer reproduces the R4600 renderer's 12-bit
-  horizontal and vertical accumulators, orientation, clipping, placement, and
-  BGR555 scene composition. For token `0x0b`, all 597 framebuffer stores match
-  the controlled MAME oracle in address and final 16-bit value. The vertical
-  path also implements the source-row rejection used for particles scaled
-  below their original size.
-- The complete controlled impact contains seven type-`0x1a` particle
-  lifetimes: 315 renderer calls across 96 displayed frames, with six particles
-  overlapping at the peak. The native renderer preserves their original pass
-  order. A same-run peak oracle covers 5,321 R4600 writes to 4,101 unique
-  destination pixels and produces zero native blend-surface differences.
-- The verified display-class-`0x60`, flags-`0` path through original routine
-  `0x88001b90` now derives a complete packed-render descriptor directly from
-  guest object state. All 315 controlled calls match, and developer-only
-  oracle/state rendering gives the same complete framebuffer hash for the
-  first call, all six peak calls in order, and the last call. Unsupported
-  display/flag/palette branches fail explicitly rather than being guessed.
-- The PC window now animates that complete captured impact over either a
-  supplied 320x240 scene or a generated diagnostic background. SDL2 is a
-  replaceable runtime-loaded host layer; it does not determine game rendering
-  behavior.
-- Next milestone: recover the original particle-emission timing and ordering so
-  the full seven-particle effect no longer needs a captured schedule.
+**This is an early native-execution research build, not a playable game.**
+The Linux diagnostic demo renders the green Endokuken impact, but still uses
+captured scheduling and transforms. It is not proof of a fully integrated
+native effect, a complete startup, or a working fight.
+
+### Verified capabilities
+
+- The working game revision is **KI v1.5d**. Source identities and bounded
+  reconstruction evidence are recorded in the repository's provenance files.
+- A build-time MIPS translator and native runtime execute selected connected
+  original regions, including calls, branches, delay slots and a verified
+  manual-code boundary. Unsupported paths stop explicitly.
+- Bounded object allocation, release, particle construction, animation,
+  movement and emission routines have original/native comparisons.
+- Selected contact, projection, frame-selection and rendering transactions
+  have bounded state comparisons. The connected `0x8800099c` to `0x880012b8`
+  diagnostic phase executes natively; its initialization remains diagnostic.
+- Scoped snapshots support restoration and deterministic replay for admitted
+  pilot transactions. This is not whole-game rollback or online play.
+- The registered startup-clear region `[0x880001c4, 0x880001ec)` executes
+  natively and matches a retained original endpoint comparison. A separate
+  nonzero-memory test checks its write effects. Its exit is an explicit stop;
+  full startup and startup-region snapshots remain unsupported.
+- The host presenter preserves the canonical 320x240, 4:3 game surface, with
+  integer/aspect fit, resizing, fullscreen and external solid-color decoration.
+  Automated viewport checks cover 1080p and 4K geometry.
+
+### Remaining boundaries
+
+- The effect still needs authentic initiating state and connected lifecycle
+  execution without captured spawn or transform schedules. Existing diagnostic
+  fighter streams and seeded state are not production initialization.
+- Full CP0/TLB/FCSR behavior, production timing and reached device contracts
+  remain incomplete. Unknown operations cannot be replaced by silent no-ops.
+- Complete scenes, playable combat, executable integrated DCS audio and the
+  full arcade flow are not implemented.
+- Linux is the current development and test host. Windows is a target, but
+  actual Windows execution has not yet been verified.
+- Image-based decorative artwork is not integrated into the executable.
+
+The next integration objective is a repeatable, state-driven native effect
+with scoped restore/replay. Progress is assessed by verified capabilities,
+not function counts or an implied completion date.
+
+See [technical boundaries](docs/KNOWLEDGE.md),
+[object-model findings](docs/OBJECT_MODEL.md), and the
+[verification method](docs/VERIFICATION.md) for the evidence scope.
 
 ## Game data
 
@@ -103,7 +72,6 @@ All local inputs and substantial derived artifacts remain ignored by Git.
 From the repository root:
 
 ```sh
-make check
 python3 tools/ki_project.py doctor
 python3 tools/ki_project.py inventory /path/to/your/KI-files \
   --output work/input-inventory.json
@@ -111,6 +79,13 @@ python3 tools/ki_project.py inventory /path/to/your/KI-files \
 
 `inventory` reads files, calculates fingerprints, and compares ZIP/CHD members
 with the public MAME manifest. It never modifies the supplied dumps.
+
+`make pc-demo` builds the diagnostic executable. Running it requires the local
+capture described below. `make check` is the development verification suite:
+several checks require locally extracted source segments and retained private
+oracle captures that are not distributed with this repository. A clean public
+checkout alone cannot reproduce the complete suite; missing evidence is not a
+passing result. See [verification prerequisites](docs/VERIFICATION.md#running-checks).
 
 ### Native PC rendering milestone
 

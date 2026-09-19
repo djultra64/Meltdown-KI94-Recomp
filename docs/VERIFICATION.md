@@ -323,3 +323,21 @@ collision/damage selection, pause/update scheduling, projection, and gameplay
 are outside this verification. `-nodrc` is not itself cache proof: only the
 explicit CPU/debugger/snapshot agreements in this controlled harness are
 claimed.
+
+## Running checks
+
+Documentation status: September 19, 2026. `make check` is a development suite,
+not a self-contained test of a clean public checkout. Its generation and
+original/native comparison steps require lawfully supplied, locally extracted
+source segments and retained captures under ignored `work/`. The public
+repository does not include those inputs. `inventory` identifies user files;
+it does not generate all extraction and oracle artifacts.
+
+`make pc-demo` compiles the diagnostic presenter without those runtime captures.
+Launching it requires the RAM input documented in the README. Compilation alone
+is not an original/native comparison, a runnable-game test, or verification on
+Windows. Missing capture, platform or tool prerequisites must be reported as
+not run, rather than silently skipped and counted as passing.
+
+This documentation update records previously verified boundaries. It does not
+claim a fresh full-suite run or a new original-machine acquisition.
